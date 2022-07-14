@@ -14,6 +14,7 @@ import {
 import Abilities from './modules/Abilities';
 import Buffs from './modules/Buffs';
 import GlobalCooldown from './modules/core/GlobalCooldown';
+import SinfulBrandUptime from './modules/covenants/SinfulBrandUptime';
 import AlwaysBeCasting from './modules/features/AlwaysBeCasting';
 import Checklist from './modules/features/Checklist/Module';
 import CooldownThroughputTracker from './modules/features/CooldownThroughputTracker';
@@ -93,6 +94,7 @@ class CombatLogParser extends CoreCombatLogParser {
 
     //Covenants
     sinfulBrand: SinfulBrand,
+    sinfulBrandUptime: SinfulBrandUptime,
     theHunt: TheHunt,
     elysianDecree: ElysianDecree,
 
