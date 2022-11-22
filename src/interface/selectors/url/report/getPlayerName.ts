@@ -1,7 +1,7 @@
-import getMatch from './getMatch';
+import { getMatchWithPlayer } from './getMatch';
 
 export default (pathname: string) => {
-  const match = getMatch(pathname);
+  const match = getMatchWithPlayer(pathname);
   if (match && match.params.player) {
     const player = match.params.player;
     const index = player.indexOf('-');

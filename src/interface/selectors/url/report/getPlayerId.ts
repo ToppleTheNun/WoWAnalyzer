@@ -1,7 +1,7 @@
-import getMatch from './getMatch';
+import { getMatchWithPlayer } from './getMatch';
 
 export default (pathname: string) => {
-  const match = getMatch(pathname);
+  const match = getMatchWithPlayer(pathname);
   if (match && match.params.player) {
     const playerId = Number(match.params.player.split('-')[0]);
     if (playerId) {

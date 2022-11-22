@@ -12,8 +12,8 @@ import { Link, useLocation } from 'react-router-dom';
 import Toggle from 'react-toggle';
 import { FightProvider } from 'interface/report/context/FightContext';
 import { useReport } from 'interface/report/context/ReportContext';
-import { Helmet } from 'react-helmet';
 import { isUnsupportedClassicVersion } from 'game/VERSIONS';
+import DocumentTitle from 'interface/DocumentTitle';
 
 interface Props {
   children: ReactNode;
@@ -110,17 +110,16 @@ const FightSelection = ({ children }: Props) => {
 
   return (
     <>
-      <Helmet>
-        <title>
-          {fight
+      <DocumentTitle
+        title={
+          fight
             ? t({
                 id: 'interface.report.fightSelection.documentTitle',
                 message: `${getFightName(report, fight)} in ${report.title}`,
               })
-            : report.title}
-        </title>
-      </Helmet>
-
+            : report.title
+        }
+      />
       <FightProvider fight={fight}>{children}</FightProvider>
     </>
   );

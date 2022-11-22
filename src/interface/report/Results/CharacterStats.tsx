@@ -9,19 +9,13 @@ import STAT, {
   getNameTranslated,
 } from 'parser/shared/modules/features/STAT';
 import StatTracker from 'parser/shared/modules/StatTracker';
-import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 
-interface Props extends RouteComponentProps {
+interface Props {
   statTracker: StatTracker;
 }
 
 class CharacterStats extends PureComponent<Props, { expanded?: boolean }> {
-  static propTypes = {
-    statTracker: PropTypes.instanceOf(StatTracker).isRequired,
-  };
-
   getStatRating(stat: STAT) {
     const statTracker = this.props.statTracker;
     switch (stat) {
