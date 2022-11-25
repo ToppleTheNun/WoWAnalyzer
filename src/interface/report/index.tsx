@@ -1,13 +1,13 @@
-import ErrorBoundary from 'interface/ErrorBoundary';
 import makeAnalyzerUrl from 'interface/makeAnalyzerUrl';
-import NavigationBar from 'interface/NavigationBar';
 import { useCallback, useState } from 'react';
+import { useReport } from 'interface/report/context/ReportContext';
+import { usePlayer } from 'interface/report/context/PlayerContext';
+import { useFight } from 'interface/report/context/FightContext';
+import FightSelection from 'interface/report/FightSelection';
 
 import BOSS_PHASES_STATE from './BOSS_PHASES_STATE';
 import { ReportPlayerConfigProvider, useConfig } from './ConfigContext';
 import EVENT_PARSING_STATE from './EVENT_PARSING_STATE';
-import { ReportExpansionContextProvider } from './ExpansionContext';
-import FightSelection from './FightSelection';
 import useBossPhaseEvents from './hooks/useBossPhaseEvents';
 import useCharacterProfile from './hooks/useCharacterProfile';
 import useEventParser from './hooks/useEventParser';
@@ -15,14 +15,9 @@ import useEvents from './hooks/useEvents';
 import useParser from './hooks/useParser';
 import usePhases, { SELECTION_ALL_PHASES } from './hooks/usePhases';
 import useTimeEventFilter, { Filter } from './hooks/useTimeEventFilter';
-import PatchChecker from './PatchChecker';
 import PlayerLoader from './PlayerLoader';
-import ReportLoader from './ReportLoader';
 import Results from './Results';
 import SupportChecker from './SupportChecker';
-import { useReport } from 'interface/report/context/ReportContext';
-import { usePlayer } from 'interface/report/context/PlayerContext';
-import { useFight } from 'interface/report/context/FightContext';
 
 const ResultsLoader = () => {
   const config = useConfig();
@@ -172,29 +167,16 @@ const ResultsLoader = () => {
   );
 };
 
-const Report = () => (
-  // TODO: Error boundary so all sub components don't need the errorHandler with the silly withRouter dependency. Instead just throw the error and let the boundary catch it - if possible.
-  <>
-    <NavigationBar />
-
-    <ErrorBoundary>
-      <ReportLoader>
-        <ReportExpansionContextProvider>
-          <PatchChecker>
-            <FightSelection>
-              <PlayerLoader>
-                <ReportPlayerConfigProvider>
-                  <SupportChecker>
-                    <ResultsLoader />
-                  </SupportChecker>
-                </ReportPlayerConfigProvider>
-              </PlayerLoader>
-            </FightSelection>
-          </PatchChecker>
-        </ReportExpansionContextProvider>
-      </ReportLoader>
-    </ErrorBoundary>
-  </>
+const ReportPage = () => (
+  <FightSelection>
+    <PlayerLoader>
+      <ReportPlayerConfigProvider>
+        <SupportChecker>
+          <ResultsLoader />
+        </SupportChecker>
+      </ReportPlayerConfigProvider>
+    </PlayerLoader>
+  </FightSelection>
 );
 
-export default Report;
+export default ReportPage;

@@ -1,6 +1,6 @@
 import lazyLoadComponent from 'common/lazyLoadComponent';
 import retryingPromise from 'common/retryingPromise';
-import HomePage from 'interface/Home';
+import HomeLayout from 'interface/Home';
 import PrivacyPage from 'interface/PrivacyPage';
 import ReportPage from 'interface/report';
 import {
@@ -10,8 +10,11 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import NotFound from 'interface/NotFound';
+import { articleLoader } from 'interface/NewsPage';
 
 import AppLayout from './AppLayout';
+import ReportLayout, { reportLoader } from 'interface/report/ReportLayout';
+import RouterErrorBoundary from 'interface/RouterErrorBoundary';
 
 const CharacterPage = lazyLoadComponent(() =>
   retryingPromise(() =>
@@ -83,7 +86,12 @@ const browserRouter = createBrowserRouter(
     <Route path="/" element={<AppLayout />}>
       <Route path="character/:region/:realm/:name" element={<CharacterPage />} />
       <Route path="guild/:region/:realm/:name" element={<GuildPage />} />
-      <Route path="report/:reportCode">
+      <Route
+        path="report/:reportCode"
+        element={<ReportLayout />}
+        errorElement={<RouterErrorBoundary />}
+        loader={reportLoader}
+      >
         <Route path=":fightId" element={<ReportPage />}>
           <Route path=":player" element={<ReportPage />}>
             <Route path=":build" element={<ReportPage />}>
@@ -97,10 +105,10 @@ const browserRouter = createBrowserRouter(
         <Route index element={<ReportPage />} />
       </Route>
       <Route path="privacy" element={<PrivacyPage />} />
-      <Route element={<HomePage />}>
+      <Route element={<HomeLayout />}>
         <Route index element={<News />} />
         <Route path="news">
-          <Route path=":articleId" element={<NewsPage />} />
+          <Route path=":articleId" element={<NewsPage />} loader={articleLoader} />
           <Route path="" element={<News />} />
         </Route>
         <Route path="specs" element={<SpecList />} />

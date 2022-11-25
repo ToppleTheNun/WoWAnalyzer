@@ -2,17 +2,17 @@ import articles from 'articles';
 import DocumentTitle from 'interface/DocumentTitle';
 import NotFound from 'interface/NotFound';
 import { Fragment } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, LoaderFunction, useLoaderData } from 'react-router-dom';
 
 import makeNewsUrl from './makeNewsUrl';
 import NewsArticleLoader from './NewsArticleLoader';
 import 'interface/NewsPage.scss';
 
-const NewsPage = () => {
-  const { articleId } = useParams();
-  const decodedArticleId = decodeURI(articleId?.replace(/\+/g, ' ') ?? '');
-  const fileName = articles[decodedArticleId];
+export const articleLoader: LoaderFunction = ({ params: { articleId } }) =>
+  articles[decodeURI(articleId?.replace(/\+/g, ' ') ?? '')];
 
+const NewsPage = () => {
+  const fileName = useLoaderData() as string;
   if (!fileName) {
     return <NotFound />;
   }

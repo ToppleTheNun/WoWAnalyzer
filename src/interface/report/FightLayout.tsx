@@ -1,24 +1,20 @@
-import { t, Trans } from '@lingui/macro';
-import getFightName from 'common/getFightName';
-import makeAnalyzerUrl from 'interface/makeAnalyzerUrl';
-import ClassicLogWarning from 'interface/report/ClassicLogWarning';
-import FightSelectionPanel from 'interface/report/FightSelectionPanel';
-import ReportDurationWarning, { MAX_REPORT_DURATION } from 'interface/report/ReportDurationWarning';
+import { Link, Outlet, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import DocumentTitle from 'interface/DocumentTitle';
+import { useReport } from './context/ReportContext';
 import { getFightFromReport } from 'interface/selectors/fight';
 import Tooltip from 'interface/Tooltip';
-import { ReactNode, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { t, Trans } from '@lingui/macro';
+import makeAnalyzerUrl from 'interface/makeAnalyzerUrl';
 import Toggle from 'react-toggle';
-import { FightProvider } from 'interface/report/context/FightContext';
-import { useReport } from 'interface/report/context/ReportContext';
 import { isUnsupportedClassicVersion } from 'game/VERSIONS';
-import DocumentTitle from 'interface/DocumentTitle';
+import ClassicLogWarning from 'interface/report/ClassicLogWarning';
+import ReportDurationWarning, { MAX_REPORT_DURATION } from 'interface/report/ReportDurationWarning';
+import FightSelectionPanel from 'interface/report/FightSelectionPanel';
+import getFightName from 'common/getFightName';
+import { FightProvider } from 'interface/report/context/FightContext';
 
-interface Props {
-  children: ReactNode;
-}
-
-const FightSelection = ({ children }: Props) => {
+const FightLayout = () => {
   const { fightId: fightIdRaw = '' } = useParams();
   const fightParts = fightIdRaw.split('-');
   const fightId = fightParts.length > 0 ? Number(fightParts[0]) : null;
@@ -32,6 +28,7 @@ const FightSelection = ({ children }: Props) => {
   }, []);
 
   const fight = fightId && getFightFromReport(report, fightId);
+
   if (!fightId || !fight) {
     return (
       <div className="container offset fight-selection">
@@ -120,9 +117,11 @@ const FightSelection = ({ children }: Props) => {
             : report.title
         }
       />
-      <FightProvider fight={fight}>{children}</FightProvider>
+      <FightProvider fight={fight}>
+        <Outlet />
+      </FightProvider>
     </>
   );
 };
 
-export default FightSelection;
+export default FightLayout;

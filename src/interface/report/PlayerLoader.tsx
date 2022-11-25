@@ -17,14 +17,13 @@ import { generateFakeCombatantInfo } from 'interface/report/CombatantInfoFaker';
 import RaidCompositionDetails from 'interface/report/RaidCompositionDetails';
 import ReportDurationWarning, { MAX_REPORT_DURATION } from 'interface/report/ReportDurationWarning';
 import ReportRaidBuffList from 'interface/ReportRaidBuffList';
-import { getPlayerId, getPlayerName } from 'interface/selectors/url/report';
 import Tooltip from 'interface/Tooltip';
 import { CombatantInfoEvent } from 'parser/core/Events';
 import { WCLFight } from 'parser/core/Fight';
 import Report from 'parser/core/Report';
 import getBuild from 'parser/getBuild';
 import getConfig from 'parser/getConfig';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PlayerProvider } from 'interface/report/context/PlayerContext';
 import { useReport } from 'interface/report/context/ReportContext';
 import { useFight } from 'interface/report/context/FightContext';
@@ -32,6 +31,8 @@ import DocumentTitle from 'interface/DocumentTitle';
 
 import handleApiError from './handleApiError';
 import PlayerSelection from './PlayerSelection';
+import { getPlayerNameFromParams } from 'interface/selectors/url/report/getPlayerName';
+import { getPlayerIdFromParams } from 'interface/selectors/url/report/getPlayerId';
 
 const FAKE_PLAYER_IF_DEV_ENV = false;
 
@@ -108,9 +109,9 @@ const PlayerLoader = ({ children }: Props) => {
   const { report: selectedReport } = useReport();
   const { fight: selectedFight } = useFight();
   const navigate = useNavigate();
-  const location = useLocation();
-  const playerId = getPlayerId(location.pathname);
-  const playerName = getPlayerName(location.pathname);
+  const params = useParams();
+  const playerId = getPlayerIdFromParams(params);
+  const playerName = getPlayerNameFromParams(params);
 
   const loadCombatants = useCallback(
     async (report: Report, fight: WCLFight) => {
