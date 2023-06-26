@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { defineMessage } from '@lingui/macro';
 import { formatPercentage } from 'common/format';
 import { SpellIcon, SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
@@ -142,7 +142,7 @@ class ShadowWordPain extends Analyzer {
       )
         .icon('spell_shadow_shadowwordpain')
         .actual(
-          t({
+          defineMessage({
             id: 'priest.shadow.suggestions.shadowWordPain.uptime',
             message: `${formatPercentage(actual)}% Shadow Word: Pain uptime`,
           }),
@@ -153,10 +153,10 @@ class ShadowWordPain extends Analyzer {
     when(this.shadowWeavingSuggestionThresholds).addSuggestion((suggest, actual, recommended) =>
       suggest(
         <span>
-          You should apply <SpellLink id={SPELLS.SHADOW_WORD_PAIN.id} /> when you have 5 stacks of{' '}
-          <SpellLink id={SPELLS.SHADOW_WEAVING_BUFF.id} />. The damage of{' '}
-          <SpellLink id={SPELLS.SHADOW_WORD_PAIN.id} /> snapshots when you apply it, but not when
-          you refresh it. The more stacks of <SpellLink id={SPELLS.SHADOW_WEAVING_BUFF.id} /> you
+          You should apply <SpellLink spell={SPELLS.SHADOW_WORD_PAIN} /> when you have 5 stacks of{' '}
+          <SpellLink spell={SPELLS.SHADOW_WEAVING_BUFF} />. The damage of{' '}
+          <SpellLink spell={SPELLS.SHADOW_WORD_PAIN} /> snapshots when you apply it, but not when
+          you refresh it. The more stacks of <SpellLink spell={SPELLS.SHADOW_WEAVING_BUFF} /> you
           have when applying SWP, the better.
         </span>,
       )

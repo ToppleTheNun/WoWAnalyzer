@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { defineMessage } from '@lingui/macro';
 import { formatPercentage } from 'common/format';
 import { SpellIcon, SpellLink } from 'interface';
 import Analyzer from 'parser/core/Analyzer';
@@ -33,13 +33,13 @@ class DevouringPlague extends Analyzer {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) =>
       suggest(
         <span>
-          Your <SpellLink id={SPELLS.DEVOURING_PLAGUE.id} /> uptime can be improved. Try to pay more
-          attention to your <SpellLink id={SPELLS.DEVOURING_PLAGUE.id} /> on the boss.
+          Your <SpellLink spell={SPELLS.DEVOURING_PLAGUE} /> uptime can be improved. Try to pay more
+          attention to your <SpellLink spell={SPELLS.DEVOURING_PLAGUE} /> on the boss.
         </span>,
       )
         .icon('spell_shadow_devouringplague')
         .actual(
-          t({
+          defineMessage({
             id: 'priest.shadow.suggestions.devouringPlague.uptime',
             message: `${formatPercentage(actual)}% Devouring Plague uptime`,
           }),
