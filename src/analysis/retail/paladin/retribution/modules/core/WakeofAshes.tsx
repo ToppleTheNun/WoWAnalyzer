@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { defineMessage } from '@lingui/macro';
 import SPELLS from 'common/SPELLS';
 import { SpellLink } from 'interface';
 import { SpellIcon } from 'interface';
@@ -102,7 +102,7 @@ class WakeofAshes extends Analyzer {
       )
         .icon(SPELLS.WAKE_OF_ASHES.icon)
         .actual(
-          t({
+          defineMessage({
             id: 'paladin.retribution.suggestions.wakeOfAshes.efficiency',
             message: `${actual} casts with no targets hit.`,
           }),

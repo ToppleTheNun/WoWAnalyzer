@@ -1,4 +1,4 @@
-import { t, Trans } from '@lingui/macro';
+import { defineMessage, Trans } from '@lingui/macro';
 import { formatPercentage } from 'common/format';
 import { TALENTS_SHAMAN } from 'common/TALENTS';
 import { SpellLink } from 'interface';
@@ -90,7 +90,7 @@ class Sundering extends Analyzer {
     this.missedCasts.forEach((cast) => {
       cast.meta = cast.meta || {};
       cast.meta.isInefficientCast = true;
-      cast.meta.inefficientCastReason = t({
+      cast.meta.inefficientCastReason = defineMessage({
         id: 'shaman.enhancement.sundering.inefficientCastReason',
         message: 'Sundering did not hit any targets.',
       });

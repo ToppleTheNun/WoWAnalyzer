@@ -1,4 +1,4 @@
-import { Trans, t } from '@lingui/macro';
+import { Trans, defineMessage } from '@lingui/macro';
 import { formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/paladin';
@@ -95,13 +95,13 @@ class Overhealing extends Analyzer {
       )
         .icon(TALENTS.LIGHT_OF_DAWN_TALENT.icon)
         .actual(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.lightOfDawnSuggestion.actual',
             message: `${formatPercentage(actual)}% overhealing`,
           }),
         )
         .recommended(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.lightOfDawnSuggestion.recommended',
             message: `<${formatPercentage(recommended)}% is recommended`,
           }),
@@ -117,13 +117,13 @@ class Overhealing extends Analyzer {
       )
         .icon(SPELLS.HOLY_SHOCK_HEAL.icon)
         .actual(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.holyShockSuggestion.actual',
             message: `${formatPercentage(actual)}% overhealing`,
           }),
         )
         .recommended(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.holyShockSuggestion.recommended',
             message: `<${formatPercentage(recommended)}% is recommended`,
           }),
@@ -140,13 +140,13 @@ class Overhealing extends Analyzer {
       )
         .icon(SPELLS.FLASH_OF_LIGHT.icon)
         .actual(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.flashOfLightSuggestion.actual',
             message: `${formatPercentage(actual)}% overhealing`,
           }),
         )
         .recommended(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.flashOfLightSuggestion.recommended',
             message: `<${formatPercentage(recommended)}% is recommended`,
           }),
@@ -163,13 +163,13 @@ class Overhealing extends Analyzer {
       )
         .icon(TALENTS.BESTOW_FAITH_TALENT.icon)
         .actual(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.bestowFaithSuggestion.actual',
             message: `${formatPercentage(actual)}% overhealing`,
           }),
         )
         .recommended(
-          t({
+          defineMessage({
             id: 'paladin.holy.modules.overhealing.bestowFaithSuggestion.recommended',
             message: `<${formatPercentage(recommended)}% is recommended`,
           }),

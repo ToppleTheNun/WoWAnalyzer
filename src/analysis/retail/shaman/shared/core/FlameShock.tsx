@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { defineMessage } from '@lingui/macro';
 import { formatNumber, formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import { SpellLink } from 'interface';
@@ -90,7 +90,7 @@ class FlameShock extends EarlyDotRefreshesAnalyzer {
       )
         .icon(SPELLS.FLAME_SHOCK.icon)
         .actual(
-          t({
+          defineMessage({
             id: 'shaman.elemental.suggestions.flameShock.uptime',
             message: `${formatPercentage(actual)}% uptime`,
           }),
@@ -110,7 +110,7 @@ class FlameShock extends EarlyDotRefreshesAnalyzer {
         )
           .icon(TALENTS_SHAMAN.LAVA_BURST_TALENT.icon)
           .actual(
-            t({
+            defineMessage({
               id: 'shaman.elemental.suggestions.flameShock.efficiency',
               message: `${formatNumber(
                 this.badLavaBursts,

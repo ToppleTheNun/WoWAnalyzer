@@ -2,7 +2,7 @@ import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/shaman';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { ApplyBuffEvent, CastEvent, DamageEvent } from 'parser/core/Events';
-import { Trans, t } from '@lingui/macro';
+import { Trans, defineMessage } from '@lingui/macro';
 import { THORIMS_INVOCATION_LINK } from '../normalizers/EventLinkNormalizer';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
@@ -102,7 +102,7 @@ class ThorimsInvocation extends Analyzer {
       const cracklingThunder = this.selectedCombatant.hasBuff(
         SPELLS.CRACKLING_THUNDER_TIER_BUFF.id,
       );
-      const inefficientCastReason = t({
+      const inefficientCastReason = defineMessage({
         id: 'shaman.enhancement.windstrike.inefficientCastReason',
         message: "You should have re-primed Thorim's Invocation with Lightning Bolt.",
       });
