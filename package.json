@@ -47,7 +47,7 @@
     "@babel/register": "7.22.5",
     "@babel/types": "7.22.5",
     "@emotion/babel-plugin": "^11.11.0",
-    "@lingui/cli": "3.17.2",
+    "@lingui/cli": "4.5.0",
     "@lingui/conf": "4.5.0",
     "@lingui/format-json": "4.5.0",
     "@lingui/swc-plugin": "4.0.4",
