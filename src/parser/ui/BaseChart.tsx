@@ -36,7 +36,7 @@ export function formatTime(field: string = 'datum.timestamp') {
 export default function BaseChart(props: Props) {
   const prp = {
     config: defaultConfig,
-    renderer: 'canvas' as const,
+    renderer: import.meta.env.MODE === 'test' ? ('svg' as const) : ('canvas' as const),
     ...props,
     spec: {
       ...props.spec,
@@ -44,10 +44,6 @@ export default function BaseChart(props: Props) {
     },
     data: undefined,
   };
-
-  if (process.env.NODE_ENV === 'test') {
-    prp.renderer = 'svg' as const;
-  }
 
   return <VegaLite theme="dark" tooltip={{ theme: 'dark' }} actions={false} {...prp} />;
 }

@@ -56,7 +56,7 @@ export default defineConfig((env) => ({
           ? html.replace('</head>', GOOGLE_ANALYTICS_SCRIPT)
           : html,
     },
-    lingui(),
+    env.mode === 'test' ? null : lingui(),
     svgr(),
     manualChunksPlugin(),
   ],
@@ -97,5 +97,7 @@ export default defineConfig((env) => ({
       },
     },
     resolveSnapshotPath: (testPath: string, snapExtension: string) => testPath + snapExtension,
+    css: false,
+    reporters: ['basic', 'hanging-process'],
   },
 }));

@@ -70,3 +70,6 @@ coverage/*
 
 # swc plugin for vite
 .swc
+
+# #vitest/ui
+html/
