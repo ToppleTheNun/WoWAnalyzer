@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 
-import react from '@vitejs/plugin-react-swc';
+import reactSwc from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
 import lingui from '@lingui/vite-plugin';
@@ -42,12 +43,18 @@ gtag('event', 'ramp_js', { send_to: 'G-E0TKKBEXVD', pageview_id: window._pwGA4Pa
 // https://vitejs.dev/config/
 export default defineConfig((env) => ({
   plugins: [
-    react({
-      plugins: [
-        ['@lingui/swc-plugin', {}],
-        ['@swc/plugin-emotion', {}],
-      ],
-    }),
+    process.env.VITE_ENABLE_SWC
+      ? reactSwc({
+          plugins: [
+            ['@lingui/swc-plugin', {}],
+            ['@swc/plugin-emotion', {}],
+          ],
+        })
+      : react({
+          babel: {
+            plugins: ['macros', '@emotion/babel-plugin'],
+          },
+        }),
     tsconfigPaths(),
     {
       name: 'vite-plugin-wowanalyzer-index-html-inject-ga',
