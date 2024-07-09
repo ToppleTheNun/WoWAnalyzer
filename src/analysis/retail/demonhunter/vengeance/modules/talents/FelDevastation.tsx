@@ -1,5 +1,4 @@
 import { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
-import TALENTS from 'common/TALENTS/demonhunter';
 import { SpellLink } from 'interface';
 import SPELLS from 'common/SPELLS/demonhunter';
 import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
@@ -17,6 +16,14 @@ import MajorCooldown, {
 } from 'parser/core/MajorCooldowns/MajorCooldown';
 import { getDamageEvents } from 'analysis/retail/demonhunter/vengeance/normalizers/FelDevastationNormalizer';
 import { isDefined } from 'common/typeGuards';
+import {
+  FEL_DEVASTATION_TALENT,
+  FIERY_BRAND_TALENT,
+  FIERY_DEMISE_TALENT,
+  SOUL_CARVER_TALENT,
+  SOULCRUSH_TALENT,
+  VULNERABILITY_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 const PERFECT_FRAILTY_STACKS = 3;
 const GOOD_FRAILTY_STACKS = 2;
@@ -40,10 +47,10 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
   protected enemies!: Enemies;
 
   constructor(options: Options) {
-    super({ spell: TALENTS.FEL_DEVASTATION_TALENT }, options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS.FEL_DEVASTATION_TALENT);
+    super({ spell: FEL_DEVASTATION_TALENT }, options);
+    this.active = this.selectedCombatant.hasTalent(FEL_DEVASTATION_TALENT);
     this.addEventListener(
-      Events.cast.by(SELECTED_PLAYER).spell(TALENTS.FEL_DEVASTATION_TALENT),
+      Events.cast.by(SELECTED_PLAYER).spell(FEL_DEVASTATION_TALENT),
       this.onCast,
     );
   }
@@ -53,7 +60,7 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
       <>
         <section style={{ marginBottom: 20 }}>
           <strong>
-            <SpellLink spell={TALENTS.FEL_DEVASTATION_TALENT} />
+            <SpellLink spell={FEL_DEVASTATION_TALENT} />
           </strong>{' '}
           is a large burst of damage and healing.
         </section>
@@ -74,8 +81,8 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
           summary: <div>Hit 1+ target</div>,
           details: (
             <div>
-              You hit 0 targets with your <SpellLink spell={TALENTS.FEL_DEVASTATION_TALENT} />. To
-              maximize damage, always try to hit targets with it.
+              You hit 0 targets with your <SpellLink spell={FEL_DEVASTATION_TALENT} />. To maximize
+              damage, always try to hit targets with it.
             </div>
           ),
         }),
@@ -158,7 +165,7 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
   }
 
   private fieryDemisePerformance(cast: FelDevastationCooldownCast): UsageInfo | undefined {
-    if (!this.selectedCombatant.hasTalent(TALENTS.FIERY_DEMISE_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(FIERY_DEMISE_TALENT)) {
       return undefined;
     }
     if (!cast.damage.some((it) => it.hasFieryBrandDebuff)) {
@@ -166,15 +173,15 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
         performance: QualitativePerformance.Fail,
         summary: (
           <div>
-            <SpellLink spell={TALENTS.FIERY_BRAND_TALENT} /> not applied to target
+            <SpellLink spell={FIERY_BRAND_TALENT} /> not applied to target
           </div>
         ),
         details: (
           <div>
-            <SpellLink spell={TALENTS.FIERY_BRAND_TALENT} /> not applied to target. Make sure to
-            apply <SpellLink spell={TALENTS.FIERY_BRAND_TALENT} /> before casting{' '}
-            <SpellLink spell={TALENTS.FEL_DEVASTATION_TALENT} /> so that you benefit from{' '}
-            <SpellLink spell={TALENTS.FIERY_DEMISE_TALENT} />.
+            <SpellLink spell={FIERY_BRAND_TALENT} /> not applied to target. Make sure to apply{' '}
+            <SpellLink spell={FIERY_BRAND_TALENT} /> before casting{' '}
+            <SpellLink spell={FEL_DEVASTATION_TALENT} /> so that you benefit from{' '}
+            <SpellLink spell={FIERY_DEMISE_TALENT} />.
           </div>
         ),
       };
@@ -183,22 +190,22 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
       performance: QualitativePerformance.Perfect,
       summary: (
         <div>
-          <SpellLink spell={TALENTS.FIERY_BRAND_TALENT} /> applied to target
+          <SpellLink spell={FIERY_BRAND_TALENT} /> applied to target
         </div>
       ),
       details: (
         <div>
-          <SpellLink spell={TALENTS.FIERY_BRAND_TALENT} /> applied to target.
+          <SpellLink spell={FIERY_BRAND_TALENT} /> applied to target.
         </div>
       ),
     };
   }
 
   private frailtyPerformance(cast: FelDevastationCooldownCast): UsageInfo | undefined {
-    if (!this.selectedCombatant.hasTalent(TALENTS.VULNERABILITY_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(VULNERABILITY_TALENT)) {
       return undefined;
     }
-    if (!this.selectedCombatant.hasTalent(TALENTS.SOULCRUSH_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(SOULCRUSH_TALENT)) {
       const atLeastOneTargetHasFrailty = cast.damage.some((it) => it.targetStacksOfFrailty > 0);
       if (atLeastOneTargetHasFrailty) {
         return {
@@ -226,7 +233,7 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
           <div>
             <SpellLink spell={SPELLS.FRAILTY} /> not applied to target(s). Make sure to apply{' '}
             <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-            <SpellLink spell={TALENTS.SOUL_CARVER_TALENT} />.
+            <SpellLink spell={SOUL_CARVER_TALENT} />.
           </div>
         ),
       };
@@ -274,7 +281,7 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
             Only {atLeastOneTargetHasGoodFrailty.targetStacksOfFrailty} stack(s) of{' '}
             <SpellLink spell={SPELLS.FRAILTY} /> applied to 1+ target(s). Try applying at least{' '}
             {PERFECT_FRAILTY_STACKS} stack(s) of <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-            <SpellLink spell={TALENTS.SOUL_CARVER_TALENT} />.
+            <SpellLink spell={SOUL_CARVER_TALENT} />.
           </div>
         ),
       };
@@ -293,7 +300,7 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
             Only {atLeastOneTargetHasOkFrailty.targetStacksOfFrailty} stack(s) of{' '}
             <SpellLink spell={SPELLS.FRAILTY} /> applied to 1+ target(s). Try applying at least{' '}
             {PERFECT_FRAILTY_STACKS} stack(s) of <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-            <SpellLink spell={TALENTS.FEL_DEVASTATION_TALENT} />.
+            <SpellLink spell={FEL_DEVASTATION_TALENT} />.
           </div>
         ),
       };
@@ -310,7 +317,7 @@ export default class FelDevastation extends MajorCooldown<FelDevastationCooldown
           Only {mostStacksOfFrailty} stack(s) of <SpellLink spell={SPELLS.FRAILTY} /> applied to
           target. Try applying at least {PERFECT_FRAILTY_STACKS} stack(s) of{' '}
           <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-          <SpellLink spell={TALENTS.FEL_DEVASTATION_TALENT} />.
+          <SpellLink spell={FEL_DEVASTATION_TALENT} />.
         </div>
       ),
     };

@@ -1,7 +1,13 @@
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import BLOODLUST_BUFFS from 'game/BLOODLUST_BUFFS';
 import CoreAuras from 'parser/core/modules/Auras';
+import {
+  DARKNESS_TALENT,
+  FELBLADE_TALENT,
+  TACTICAL_RETREAT_TALENT,
+  VENGEFUL_RETREAT_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 class Buffs extends CoreAuras {
   auras() {
@@ -24,27 +30,27 @@ class Buffs extends CoreAuras {
         triggeredBySpellId: SPELLS.IMMOLATION_AURA.id,
       },
       {
-        spellId: TALENTS_DEMON_HUNTER.FELBLADE_TALENT.id,
+        spellId: FELBLADE_TALENT.id,
         timelineHighlight: false,
-        triggeredBySpellId: TALENTS_DEMON_HUNTER.FELBLADE_TALENT.id,
+        triggeredBySpellId: FELBLADE_TALENT.id,
       },
       {
         spellId: SPELLS.BLUR_BUFF.id,
         triggeredBySpellId: SPELLS.BLUR.id,
       },
       {
-        spellId: TALENTS_DEMON_HUNTER.DARKNESS_TALENT.id,
-        triggeredBySpellId: TALENTS_DEMON_HUNTER.DARKNESS_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.DARKNESS_TALENT),
+        spellId: DARKNESS_TALENT.id,
+        triggeredBySpellId: DARKNESS_TALENT.id,
+        enabled: combatant.hasTalent(DARKNESS_TALENT),
       },
       {
         spellId: SPELLS.SIGIL_OF_FLAME_DEBUFF.id,
         triggeredBySpellId: [SPELLS.SIGIL_OF_FLAME_PRECISE.id, SPELLS.SIGIL_OF_FLAME.id],
       },
       {
-        spellId: TALENTS_DEMON_HUNTER.TACTICAL_RETREAT_TALENT.id,
-        triggeredBySpellId: TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.TACTICAL_RETREAT_TALENT),
+        spellId: TACTICAL_RETREAT_TALENT.id,
+        triggeredBySpellId: VENGEFUL_RETREAT_TALENT.id,
+        enabled: combatant.hasTalent(TACTICAL_RETREAT_TALENT),
       },
       {
         spellId: Object.keys(BLOODLUST_BUFFS).map((item) => Number(item)),

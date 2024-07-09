@@ -18,10 +18,11 @@ import CastPerformanceSummary from 'analysis/retail/demonhunter/shared/guide/Cas
 import { combineQualitativePerformances } from 'common/combineQualitativePerformances';
 import RESOURCE_TYPES from 'game/RESOURCE_TYPES';
 import ResourceLink from 'interface/ResourceLink';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+
 import CastEfficiencyBar from 'parser/ui/CastEfficiencyBar';
 import { GapHighlight } from 'parser/ui/CooldownBar';
 import ContextualSpellUsageSubSection from 'parser/core/SpellUsage/HideGoodCastsSpellUsageSubSection';
+import { FALLOUT_TALENT } from 'common/TALENTS/demonhunter';
 
 class ImmolationAura extends Analyzer {
   static dependencies = {
@@ -128,11 +129,11 @@ class ImmolationAura extends Analyzer {
     ) : (
       <div>
         You did not hit any targets with the initial burst.
-        {this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FALLOUT_TALENT) ? (
+        {this.selectedCombatant.hasTalent(FALLOUT_TALENT) ? (
           <>
             {' '}
-            This is especially important when you have{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.FALLOUT_TALENT} /> talented.
+            This is especially important when you have <SpellLink spell={FALLOUT_TALENT} />{' '}
+            talented.
           </>
         ) : null}
       </div>

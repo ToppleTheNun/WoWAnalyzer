@@ -1,17 +1,17 @@
 import { useInfo } from 'interface/guide';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+
 import { SpellLink } from 'interface';
+import { DEMONIC_TALENT } from 'common/TALENTS/demonhunter';
 
 const NoDemonicExplanation = () => {
   const info = useInfo();
-  if (!info || info.combatant.hasTalent(TALENTS_DEMON_HUNTER.DEMONIC_TALENT)) {
+  if (!info || info.combatant.hasTalent(DEMONIC_TALENT)) {
     return null;
   }
   return (
     <p>
-      Using this ability without also having{' '}
-      <SpellLink spell={TALENTS_DEMON_HUNTER.DEMONIC_TALENT} /> talented will lead to significantly
-      less damage.
+      Using this ability without also having <SpellLink spell={DEMONIC_TALENT} /> talented will lead
+      to significantly less damage.
     </p>
   );
 };

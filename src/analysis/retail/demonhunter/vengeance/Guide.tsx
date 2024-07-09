@@ -1,5 +1,5 @@
 import { GuideProps, Section, SubSection, useInfo } from 'interface/guide';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import SPELLS from 'common/SPELLS/demonhunter';
 import { ResourceLink, SpellLink } from 'interface';
 import PreparationSection from 'interface/guide/components/Preparation/PreparationSection';
@@ -22,6 +22,18 @@ import {
 import { PerformanceStrong } from 'analysis/retail/priest/shadow/modules/guide/ExtraComponents';
 import { formatPercentage } from 'common/format';
 import ActiveTimeGraph from 'parser/ui/ActiveTimeGraph';
+import {
+  BULK_EXTRACTION_TALENT,
+  FEL_DEVASTATION_TALENT,
+  FIERY_BRAND_TALENT,
+  FIERY_DEMISE_TALENT,
+  FRACTURE_TALENT,
+  SIGIL_OF_SPITE_TALENT,
+  SOUL_BARRIER_TALENT,
+  SOUL_CARVER_TALENT,
+  SPIRIT_BOMB_TALENT,
+  THE_HUNT_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 export default function Guide({ modules, events, info }: GuideProps<typeof CombatLogParser>) {
   return (
@@ -122,12 +134,10 @@ function RotationSection({ modules, info }: GuideProps<typeof CombatLogParser>) 
       <br />
       <HideExplanationsToggle id="hide-explanations-rotation" />
       <HideGoodCastsToggle id="hide-good-casts-rotation" />
-      {info.combatant.hasTalent(TALENTS_DEMON_HUNTER.FRACTURE_TALENT) &&
-        modules.fracture.guideSubsection()}
+      {info.combatant.hasTalent(FRACTURE_TALENT) && modules.fracture.guideSubsection()}
       {modules.immolationAura.vengeanceGuideSubsection()}
       {modules.sigilOfFlame.guideSubsection()}
-      {info.combatant.hasTalent(TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT) &&
-        modules.spiritBomb.guideSubsection()}
+      {info.combatant.hasTalent(SPIRIT_BOMB_TALENT) && modules.spiritBomb.guideSubsection()}
       {modules.soulCleave.guideSubsection()}
     </Section>
   );
@@ -135,34 +145,32 @@ function RotationSection({ modules, info }: GuideProps<typeof CombatLogParser>) 
 
 const cooldowns: Cooldown[] = [
   {
-    spell: TALENTS_DEMON_HUNTER.SOUL_CARVER_TALENT,
-    isActive: (c) => c.hasTalent(TALENTS_DEMON_HUNTER.SOUL_CARVER_TALENT),
+    spell: SOUL_CARVER_TALENT,
+    isActive: (c) => c.hasTalent(SOUL_CARVER_TALENT),
   },
   {
-    spell: TALENTS_DEMON_HUNTER.FEL_DEVASTATION_TALENT,
-    isActive: (c) => c.hasTalent(TALENTS_DEMON_HUNTER.FEL_DEVASTATION_TALENT),
+    spell: FEL_DEVASTATION_TALENT,
+    isActive: (c) => c.hasTalent(FEL_DEVASTATION_TALENT),
   },
   {
-    spell: TALENTS_DEMON_HUNTER.SIGIL_OF_SPITE_TALENT,
-    isActive: (c) => c.hasTalent(TALENTS_DEMON_HUNTER.SIGIL_OF_SPITE_TALENT),
+    spell: SIGIL_OF_SPITE_TALENT,
+    isActive: (c) => c.hasTalent(SIGIL_OF_SPITE_TALENT),
   },
   {
-    spell: TALENTS_DEMON_HUNTER.THE_HUNT_TALENT,
-    isActive: (c) => c.hasTalent(TALENTS_DEMON_HUNTER.THE_HUNT_TALENT),
+    spell: THE_HUNT_TALENT,
+    isActive: (c) => c.hasTalent(THE_HUNT_TALENT),
   },
   {
-    spell: TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT,
-    isActive: (c) => c.hasTalent(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT),
+    spell: SOUL_BARRIER_TALENT,
+    isActive: (c) => c.hasTalent(SOUL_BARRIER_TALENT),
   },
   {
-    spell: TALENTS_DEMON_HUNTER.BULK_EXTRACTION_TALENT,
-    isActive: (c) => c.hasTalent(TALENTS_DEMON_HUNTER.BULK_EXTRACTION_TALENT),
+    spell: BULK_EXTRACTION_TALENT,
+    isActive: (c) => c.hasTalent(BULK_EXTRACTION_TALENT),
   },
   {
-    spell: TALENTS_DEMON_HUNTER.FIERY_BRAND_TALENT,
-    isActive: (c) =>
-      c.hasTalent(TALENTS_DEMON_HUNTER.FIERY_BRAND_TALENT) &&
-      c.hasTalent(TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT),
+    spell: FIERY_BRAND_TALENT,
+    isActive: (c) => c.hasTalent(FIERY_BRAND_TALENT) && c.hasTalent(FIERY_DEMISE_TALENT),
   },
 ];
 function CooldownSection({ modules, info }: GuideProps<typeof CombatLogParser>) {
@@ -173,18 +181,16 @@ function CooldownSection({ modules, info }: GuideProps<typeof CombatLogParser>) 
         amounts of damage. In order to maximize usages over the course of an encounter, you should
         aim to send the cooldown as soon as it becomes available (as long as it can do damage on
         target) if you won't need it for an upcoming mechanic. It is particularly important to use{' '}
-        <SpellLink spell={TALENTS_DEMON_HUNTER.FEL_DEVASTATION_TALENT} /> as often as possible.
+        <SpellLink spell={FEL_DEVASTATION_TALENT} /> as often as possible.
       </p>
       <HideExplanationsToggle id="hide-explanations-cooldowns" />
       <HideGoodCastsToggle id="hide-good-casts-cooldowns" />
       <CooldownGraphSubsection cooldowns={cooldowns} />
-      {info.combatant.hasTalent(TALENTS_DEMON_HUNTER.FEL_DEVASTATION_TALENT) && (
+      {info.combatant.hasTalent(FEL_DEVASTATION_TALENT) && (
         <CooldownUsage analyzer={modules.felDevastation} />
       )}
-      {info.combatant.hasTalent(TALENTS_DEMON_HUNTER.THE_HUNT_TALENT) && (
-        <CooldownUsage analyzer={modules.theHunt} />
-      )}
-      {info.combatant.hasTalent(TALENTS_DEMON_HUNTER.SOUL_CARVER_TALENT) && (
+      {info.combatant.hasTalent(THE_HUNT_TALENT) && <CooldownUsage analyzer={modules.theHunt} />}
+      {info.combatant.hasTalent(SOUL_CARVER_TALENT) && (
         <CooldownUsage analyzer={modules.soulCarver} />
       )}
     </Section>

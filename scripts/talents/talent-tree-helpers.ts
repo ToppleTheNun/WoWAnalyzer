@@ -88,9 +88,29 @@ export function printTalents(
       // deduplicate the entry ids. this is not done at earlier steps so we can tell when a talent
       // is repeated across trees for the shared/spec disambiguation method
       value.entryIds = Array.from(new Set(value.entryIds));
-      return `${key}: ${JSON.stringify(value)},`;
+      return `export const ${key}: Talent = ${JSON.stringify(value)};`;
     })
     .join('\n');
+}
+
+export function printTalentNames(
+  talentObj: Array<{ key: string; value: GenericTalentInterface }> | undefined,
+) {
+  if (!talentObj) {
+    return "\n//Class doesn't exist in data yet\n";
+  }
+  return talentObj
+    .sort((a, b) => {
+      if (a.key < b.key) {
+        return -1;
+      } else if (a.key > b.key) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
+    .map((talent) => talent.key)
+    .join(',\n');
 }
 
 //Right now in the alpha build there are a bunch of talents between class and spec trees that share the same name

@@ -1,6 +1,6 @@
 import { formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { DamageEvent } from 'parser/core/Events';
 import Statistic from 'parser/ui/Statistic';
@@ -8,13 +8,14 @@ import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import ItemDamageDone from 'parser/ui/ItemDamageDone';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { GLAIVE_TEMPEST_TALENT } from 'common/TALENTS/demonhunter';
 
 class GlaiveTempest extends Analyzer {
   damage = 0;
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.GLAIVE_TEMPEST_TALENT);
+    this.active = this.selectedCombatant.hasTalent(GLAIVE_TEMPEST_TALENT);
     if (!this.active) {
       return;
     }
@@ -41,7 +42,7 @@ class GlaiveTempest extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.GLAIVE_TEMPEST_TALENT}>
+        <TalentSpellText talent={GLAIVE_TEMPEST_TALENT}>
           <ItemDamageDone amount={this.damage} />
         </TalentSpellText>
       </Statistic>

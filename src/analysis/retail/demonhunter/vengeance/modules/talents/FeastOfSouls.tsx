@@ -1,6 +1,5 @@
 import { formatNumber, formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { HealEvent } from 'parser/core/Events';
 import ItemHealingDone from 'parser/ui/ItemHealingDone';
@@ -8,6 +7,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { FEAST_OF_SOULS_TALENT } from 'common/TALENTS/demonhunter';
 
 //WCL: https://www.warcraftlogs.com/reports/7DNACRhnaKzBfHLM/#fight=1&source=19
 class FeastOfSouls extends Analyzer {
@@ -16,7 +16,7 @@ class FeastOfSouls extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FEAST_OF_SOULS_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FEAST_OF_SOULS_TALENT);
     this.addEventListener(
       Events.heal.by(SELECTED_PLAYER).spell(SPELLS.FEAST_OF_SOULS_HEAL),
       this.onHeal,
@@ -46,7 +46,7 @@ class FeastOfSouls extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FEAST_OF_SOULS_TALENT}>
+        <TalentSpellText talent={FEAST_OF_SOULS_TALENT}>
           <ItemHealingDone amount={this.heal} />
         </TalentSpellText>
       </Statistic>

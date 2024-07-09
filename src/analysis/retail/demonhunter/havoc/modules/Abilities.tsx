@@ -1,5 +1,5 @@
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import SharedAbilities from 'analysis/retail/demonhunter/shared/modules/Abilities';
 import { SpellbookAbility } from 'parser/core/modules/Ability';
@@ -10,6 +10,23 @@ import {
 } from 'analysis/retail/demonhunter/shared';
 import { getMetamorphosisCooldown } from 'analysis/retail/demonhunter/shared/modules/talents/MetamorphosisCooldown';
 import { getFelRushCooldown } from 'analysis/retail/demonhunter/havoc/modules/spells/FelRush';
+import {
+  A_FIRE_INSIDE_TALENT,
+  BLAZING_PATH_TALENT,
+  CHAMPION_OF_THE_GLAIVE_TALENT,
+  DEMON_BLADES_TALENT,
+  ESSENCE_BREAK_TALENT,
+  EYE_BEAM_TALENT,
+  FEL_BARRAGE_TALENT,
+  FIRST_BLOOD_TALENT,
+  GLAIVE_TEMPEST_TALENT,
+  MASTER_OF_THE_GLAIVE_TALENT,
+  MOMENTUM_TALENT,
+  NETHERWALK_TALENT,
+  SOULSCAR_TALENT,
+  TACTICAL_RETREAT_TALENT,
+  VENGEFUL_RETREAT_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 class Abilities extends SharedAbilities {
   spellbook(): SpellbookAbility[] {
@@ -21,7 +38,7 @@ class Abilities extends SharedAbilities {
         spell: SPELLS.IMMOLATION_AURA.id,
         category: SPELL_CATEGORY.ROTATIONAL,
         cooldown: (haste) => 30 / (1 + haste),
-        charges: 1 + (combatant.hasTalent(TALENTS_DEMON_HUNTER.A_FIRE_INSIDE_TALENT) ? 1 : 0),
+        charges: 1 + (combatant.hasTalent(A_FIRE_INSIDE_TALENT) ? 1 : 0),
         gcd: {
           base: 1500,
         },
@@ -38,7 +55,7 @@ class Abilities extends SharedAbilities {
       },
       {
         spell: SPELLS.DEMONS_BITE.id,
-        enabled: !combatant.hasTalent(TALENTS_DEMON_HUNTER.DEMON_BLADES_TALENT),
+        enabled: !combatant.hasTalent(DEMON_BLADES_TALENT),
         category: SPELL_CATEGORY.ROTATIONAL,
         gcd: {
           base: 1500,
@@ -53,7 +70,7 @@ class Abilities extends SharedAbilities {
       },
       {
         spell: [SPELLS.BLADE_DANCE.id, SPELLS.DEATH_SWEEP.id],
-        category: combatant.hasTalent(TALENTS_DEMON_HUNTER.FIRST_BLOOD_TALENT)
+        category: combatant.hasTalent(FIRST_BLOOD_TALENT)
           ? SPELL_CATEGORY.ROTATIONAL
           : SPELL_CATEGORY.ROTATIONAL_AOE,
         // Blade dance = 15s cd
@@ -71,8 +88,8 @@ class Abilities extends SharedAbilities {
         },
       },
       {
-        spell: TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT),
+        spell: ESSENCE_BREAK_TALENT.id,
+        enabled: combatant.hasTalent(ESSENCE_BREAK_TALENT),
         category: SPELL_CATEGORY.COOLDOWNS,
         cooldown: 40,
         gcd: {
@@ -98,17 +115,13 @@ class Abilities extends SharedAbilities {
         cooldown: (haste) => 9 / (1 + haste),
         charges:
           1 +
-          MASTER_OF_THE_GLAIVE_SCALING[
-            combatant.getTalentRank(TALENTS_DEMON_HUNTER.MASTER_OF_THE_GLAIVE_TALENT)
-          ] +
-          CHAMPION_OF_THE_GLAIVE_SCALING[
-            combatant.getTalentRank(TALENTS_DEMON_HUNTER.CHAMPION_OF_THE_GLAIVE_TALENT)
-          ],
+          MASTER_OF_THE_GLAIVE_SCALING[combatant.getTalentRank(MASTER_OF_THE_GLAIVE_TALENT)] +
+          CHAMPION_OF_THE_GLAIVE_SCALING[combatant.getTalentRank(CHAMPION_OF_THE_GLAIVE_TALENT)],
         gcd: {
           base: 1500,
         },
         castEfficiency: {
-          suggestion: combatant.hasTalent(TALENTS_DEMON_HUNTER.SOULSCAR_TALENT),
+          suggestion: combatant.hasTalent(SOULSCAR_TALENT),
           recommendedEfficiency: 0.95,
         },
       },
@@ -116,40 +129,39 @@ class Abilities extends SharedAbilities {
       // Movement
       {
         spell: SPELLS.FEL_RUSH_CAST.id, //Becomes a rotational ability with the Momentum talent
-        category: combatant.hasTalent(TALENTS_DEMON_HUNTER.MOMENTUM_TALENT)
+        category: combatant.hasTalent(MOMENTUM_TALENT)
           ? SPELL_CATEGORY.ROTATIONAL
           : SPELL_CATEGORY.UTILITY,
-        charges: 1 + (combatant.hasTalent(TALENTS_DEMON_HUNTER.BLAZING_PATH_TALENT) ? 1 : 0),
+        charges: 1 + (combatant.hasTalent(BLAZING_PATH_TALENT) ? 1 : 0),
         cooldown: getFelRushCooldown(combatant),
         gcd: {
           static: 500,
         },
         castEfficiency: {
-          suggestion: combatant.hasTalent(TALENTS_DEMON_HUNTER.MOMENTUM_TALENT),
+          suggestion: combatant.hasTalent(MOMENTUM_TALENT),
           recommendedEfficiency: 0.95,
           extraSuggestion: (
             <>
-              Use it to keep your <SpellLink spell={TALENTS_DEMON_HUNTER.MOMENTUM_TALENT} /> buff
-              going.
+              Use it to keep your <SpellLink spell={MOMENTUM_TALENT} /> buff going.
             </>
           ),
         },
       },
       {
-        spell: TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT.id, // Becomes a rotational ability with the Momentum talent
-        category: combatant.hasTalent(TALENTS_DEMON_HUNTER.MOMENTUM_TALENT)
+        spell: VENGEFUL_RETREAT_TALENT.id, // Becomes a rotational ability with the Momentum talent
+        category: combatant.hasTalent(MOMENTUM_TALENT)
           ? SPELL_CATEGORY.ROTATIONAL
           : SPELL_CATEGORY.UTILITY,
-        cooldown: combatant.hasTalent(TALENTS_DEMON_HUNTER.TACTICAL_RETREAT_TALENT) ? 20 : 25,
+        cooldown: combatant.hasTalent(TACTICAL_RETREAT_TALENT) ? 20 : 25,
         // Not actually on the GCD but blocks all spells during its animation for 1 second. The issue is you can follow up any ability on the GCD with Vengeful Retreat, so it can still cause overlap.
         gcd: null,
         castEfficiency: {
-          suggestion: combatant.hasTalent(TALENTS_DEMON_HUNTER.TACTICAL_RETREAT_TALENT),
+          suggestion: combatant.hasTalent(TACTICAL_RETREAT_TALENT),
           recommendedEfficiency: 0.95,
           extraSuggestion: (
             <>
-              Use it to generate Fury due to the{' '}
-              <SpellLink spell={TALENTS_DEMON_HUNTER.TACTICAL_RETREAT_TALENT} /> talent.
+              Use it to generate Fury due to the <SpellLink spell={TACTICAL_RETREAT_TALENT} />{' '}
+              talent.
             </>
           ),
         },
@@ -167,7 +179,7 @@ class Abilities extends SharedAbilities {
 
       // DPS Cooldowns
       {
-        spell: TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT.id,
+        spell: EYE_BEAM_TALENT.id,
         category: SPELL_CATEGORY.COOLDOWNS,
         cooldown: 40,
         gcd: {
@@ -178,16 +190,15 @@ class Abilities extends SharedAbilities {
           recommendedEfficiency: 0.95,
           extraSuggestion: (
             <>
-              The only times you should delay casting{' '}
-              <SpellLink spell={TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT} /> is when you're expecting
-              adds to spawn soon.
+              The only times you should delay casting <SpellLink spell={EYE_BEAM_TALENT} /> is when
+              you're expecting adds to spawn soon.
             </>
           ),
         },
       },
       {
-        spell: TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT),
+        spell: FEL_BARRAGE_TALENT.id,
+        enabled: combatant.hasTalent(FEL_BARRAGE_TALENT),
         category: SPELL_CATEGORY.COOLDOWNS,
         cooldown: 90,
         gcd: {
@@ -200,8 +211,8 @@ class Abilities extends SharedAbilities {
         },
       },
       {
-        spell: TALENTS_DEMON_HUNTER.GLAIVE_TEMPEST_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.GLAIVE_TEMPEST_TALENT),
+        spell: GLAIVE_TEMPEST_TALENT.id,
+        enabled: combatant.hasTalent(GLAIVE_TEMPEST_TALENT),
         category: SPELL_CATEGORY.COOLDOWNS,
         cooldown: (haste) => 25 / (1 + haste),
         gcd: {
@@ -212,9 +223,8 @@ class Abilities extends SharedAbilities {
           recommendedEfficiency: 0.95,
           extraSuggestion: (
             <>
-              The only time you should delay casting{' '}
-              <SpellLink spell={TALENTS_DEMON_HUNTER.GLAIVE_TEMPEST_TALENT} /> is when you're
-              expecting adds to spawn soon.
+              The only time you should delay casting <SpellLink spell={GLAIVE_TEMPEST_TALENT} /> is
+              when you're expecting adds to spawn soon.
             </>
           ),
         },
@@ -239,8 +249,8 @@ class Abilities extends SharedAbilities {
         cooldown: 60,
       },
       {
-        spell: TALENTS_DEMON_HUNTER.NETHERWALK_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.NETHERWALK_TALENT),
+        spell: NETHERWALK_TALENT.id,
+        enabled: combatant.hasTalent(NETHERWALK_TALENT),
         category: SPELL_CATEGORY.DEFENSIVE,
         cooldown: 180,
         gcd: {

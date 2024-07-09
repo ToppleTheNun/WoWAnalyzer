@@ -6,6 +6,7 @@ import {
   csvToObject,
   findResourceCost,
   findResourceCostPerSecond,
+  printTalentNames,
   printTalents,
   readCsvFromUrl,
   readJsonFromUrl,
@@ -367,7 +368,9 @@ async function generateTalents(isPTR: boolean = false) {
       `// Generated file, changes will eventually be overwritten!
 import { Talent } from './types';
 
-const talents = {${printTalents(talents)}} satisfies Record<string, Talent>;
+${printTalents(talents)}
+
+const talents = {${printTalentNames(talents)}} satisfies Record<string, Talent>;
 
 export default talents;
 export { talents as TALENTS_${className.toUpperCase().replace(' ', '_')}}

@@ -1,6 +1,6 @@
 import { formatPercentage, formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { DamageEvent, ResourceChangeEvent } from 'parser/core/Events';
@@ -9,6 +9,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { DEMON_BLADES_TALENT } from 'common/TALENTS/demonhunter';
 
 /**
  * Example Report: https://www.warcraftlogs.com/reports/4GR2pwAYW8KtgFJn/#fight=6&source=18
@@ -20,7 +21,7 @@ class DemonBlades extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.DEMON_BLADES_TALENT);
+    this.active = this.selectedCombatant.hasTalent(DEMON_BLADES_TALENT);
     if (!this.active) {
       return;
     }
@@ -65,10 +66,10 @@ class DemonBlades extends Analyzer {
         <>
           {' '}
           Be mindful of your Fury levels and spend it before capping your Fury due to{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.DEMON_BLADES_TALENT} />.
+          <SpellLink spell={DEMON_BLADES_TALENT} />.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.DEMON_BLADES_TALENT.icon)
+        .icon(DEMON_BLADES_TALENT.icon)
         .actual(`${formatPercentage(actual)}% Fury wasted`)
         .recommended(`${formatPercentage(recommended)}% is recommended.`),
     );
@@ -93,7 +94,7 @@ class DemonBlades extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.DEMON_BLADES_TALENT}>
+        <TalentSpellText talent={DEMON_BLADES_TALENT}>
           {this.furyPerMin} <small>Fury per min</small> <br />
           {this.owner.formatItemDamageDone(this.damage)}
         </TalentSpellText>

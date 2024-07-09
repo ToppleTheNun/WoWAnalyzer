@@ -7,8 +7,8 @@ import { NumberThreshold, ThresholdStyle, When } from 'parser/core/ParseResults'
 import Enemies from 'parser/shared/modules/Enemies';
 import { Uptime } from 'parser/ui/UptimeBar';
 import { shouldIgnore } from 'parser/shared/modules/hit-tracking/utilities';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import HitBasedAnalyzer from 'analysis/retail/demonhunter/vengeance/guide/HitBasedAnalyzer';
+import { SPIRIT_BOMB_TALENT, VOID_REAVER_TALENT } from 'common/TALENTS/demonhunter';
 
 type TrackedHit = {
   mitigated: boolean;
@@ -28,7 +28,7 @@ export default class VoidReaver extends HitBasedAnalyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.VOID_REAVER_TALENT);
+    this.active = this.selectedCombatant.hasTalent(VOID_REAVER_TALENT);
     this.addEventListener(Events.damage.to(SELECTED_PLAYER), this.onDamageTaken);
     this.addEventListener(
       Events.applydebuff.by(SELECTED_PLAYER).spell(SPELLS.FRAILTY),
@@ -66,13 +66,12 @@ export default class VoidReaver extends HitBasedAnalyzer {
       suggest(
         <>
           Cast <SpellLink spell={SPELLS.SIGIL_OF_FLAME} /> /{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> /{' '}
-          <SpellLink spell={SPELLS.SOUL_CLEAVE} /> more regularly while actively tanking the boss or
-          when they use a big attack. You missed having Frailty up for{' '}
-          {formatPercentage(1 - actual)}% of hits.
+          <SpellLink spell={SPIRIT_BOMB_TALENT} /> / <SpellLink spell={SPELLS.SOUL_CLEAVE} /> more
+          regularly while actively tanking the boss or when they use a big attack. You missed having
+          Frailty up for {formatPercentage(1 - actual)}% of hits.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.VOID_REAVER_TALENT.icon)
+        .icon(VOID_REAVER_TALENT.icon)
         .actual(`${formatPercentage(actual)}% unmitigated hits`)
         .recommended(`<${formatPercentage(recommended)}% is recommended`),
     );

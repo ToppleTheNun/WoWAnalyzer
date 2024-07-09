@@ -1,6 +1,6 @@
 import SPELLS from 'common/SPELLS/demonhunter';
 import Spell from 'common/SPELLS/Spell';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { Talent } from 'common/TALENTS/types';
 import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
@@ -12,6 +12,7 @@ import {
   getWastedSoulFragment,
 } from '../../normalizers/ShearFractureNormalizer';
 import { addInefficientCastReason } from 'parser/core/EventMetaLib';
+import { FRACTURE_TALENT } from 'common/TALENTS/demonhunter';
 
 /*WCL: https://www.warcraftlogs.com/reports/Y7BWyCx3mHVZzPrk#fight=last&type=summary&view=events&pins=2%24Off%24%23244F4B%24casts%7Cauras%24-1%240.0.0.Any%240.0.0.Any%24true%240.0.0.Any%24true%24258920%7C204255%7C203981%7C263642
 Default spell is Shear (generates 1 soul). Fracture (generates 2 souls) talent replaces it.
@@ -27,8 +28,8 @@ export default class ShearFracture extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    if (this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FRACTURE_TALENT)) {
-      this.cast = TALENTS_DEMON_HUNTER.FRACTURE_TALENT;
+    if (this.selectedCombatant.hasTalent(FRACTURE_TALENT)) {
+      this.cast = FRACTURE_TALENT;
     }
     this.addEventListener(
       Events.removebuffstack.by(SELECTED_PLAYER).spell(SPELLS.SOUL_FRAGMENT_STACK),

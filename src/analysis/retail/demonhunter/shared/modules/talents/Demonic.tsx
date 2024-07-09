@@ -1,4 +1,3 @@
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import Analyzer, { SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent } from 'parser/core/Events';
 import { Options } from 'parser/core/EventSubscriber';
@@ -9,6 +8,11 @@ import CooldownIcon from 'interface/icons/Cooldown';
 import { DEMONIC_DURATION } from '../../constants';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 import { formatDuration } from 'common/format';
+import {
+  DEMONIC_TALENT,
+  EYE_BEAM_TALENT,
+  FEL_DEVASTATION_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 const META_BUFF_DURATION_EYEBEAM = DEMONIC_DURATION;
 
@@ -17,14 +21,14 @@ export default class Demonic extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.DEMONIC_TALENT);
+    this.active = this.selectedCombatant.hasTalent(DEMONIC_TALENT);
     if (!this.active) {
       return;
     }
     const spell =
       this.selectedCombatant.specId === SPECS.HAVOC_DEMON_HUNTER.id
-        ? TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT
-        : TALENTS_DEMON_HUNTER.FEL_DEVASTATION_TALENT;
+        ? EYE_BEAM_TALENT
+        : FEL_DEVASTATION_TALENT;
     this.addEventListener(Events.cast.by(SELECTED_PLAYER).spell(spell), this.onDemonicProc);
   }
 
@@ -35,7 +39,7 @@ export default class Demonic extends Analyzer {
   statistic() {
     return (
       <Statistic category={STATISTIC_CATEGORY.TALENTS} size="flexible">
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.DEMONIC_TALENT}>
+        <TalentSpellText talent={DEMONIC_TALENT}>
           <CooldownIcon /> {formatDuration(this.demonicDuration)} of Metamorphosis added
         </TalentSpellText>
       </Statistic>

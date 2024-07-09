@@ -1,10 +1,10 @@
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import RESOURCE_TYPES from 'game/RESOURCE_TYPES';
 import { Options } from 'parser/core/Analyzer';
 import { CastEvent } from 'parser/core/Events';
 import ResourceTracker from 'parser/shared/modules/resources/resourcetracker/ResourceTracker';
 import SpellUsable from 'parser/shared/modules/SpellUsable';
 import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
+import { BLIND_FURY_TALENT, EYE_BEAM_TALENT } from 'common/TALENTS/demonhunter';
 
 // Casting Eye Beam at over 50 when you have the Blind Fury talent is considered a waste.
 const BLIND_FURY_WASTE_CUTOFF = 50;
@@ -46,8 +46,8 @@ class FuryTracker extends ResourceTracker {
     //TODO: Account for Eye Beam clipping
     // Blind Fury resource gain does not have an energize event so it is handled here
     if (
-      spellId === TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT.id &&
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.BLIND_FURY_TALENT) &&
+      spellId === EYE_BEAM_TALENT.id &&
+      this.selectedCombatant.hasTalent(BLIND_FURY_TALENT) &&
       classResource
     ) {
       this.waste = classResource.amount - BLIND_FURY_WASTE_CUTOFF;
@@ -55,11 +55,7 @@ class FuryTracker extends ResourceTracker {
         this.waste = 0;
       }
       const AMOUNT = classResource.max - classResource.amount + this.waste;
-      this.processInvisibleEnergize(
-        TALENTS_DEMON_HUNTER.BLIND_FURY_TALENT.id,
-        AMOUNT,
-        event.timestamp,
-      );
+      this.processInvisibleEnergize(BLIND_FURY_TALENT.id, AMOUNT, event.timestamp);
     }
     super.onCast(event);
   }

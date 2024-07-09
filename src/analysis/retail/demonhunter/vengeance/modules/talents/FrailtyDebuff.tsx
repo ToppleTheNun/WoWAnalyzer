@@ -1,6 +1,6 @@
 import { formatDuration, formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import UptimeIcon from 'interface/icons/Uptime';
 import Analyzer, { Options } from 'parser/core/Analyzer';
@@ -10,6 +10,12 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import {
+  FRAILTY_TALENT,
+  SOULCRUSH_TALENT,
+  SPIRIT_BOMB_TALENT,
+  VOID_REAVER_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 class FrailtyDebuff extends Analyzer {
   static dependencies = {
@@ -21,10 +27,10 @@ class FrailtyDebuff extends Analyzer {
   constructor(options: Options) {
     super(options);
     this.active =
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT) ||
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FRAILTY_TALENT) ||
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.VOID_REAVER_TALENT) ||
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SOULCRUSH_TALENT);
+      this.selectedCombatant.hasTalent(SPIRIT_BOMB_TALENT) ||
+      this.selectedCombatant.hasTalent(FRAILTY_TALENT) ||
+      this.selectedCombatant.hasTalent(VOID_REAVER_TALENT) ||
+      this.selectedCombatant.hasTalent(SOULCRUSH_TALENT);
   }
 
   get uptime() {
@@ -67,7 +73,7 @@ class FrailtyDebuff extends Analyzer {
           <>Total uptime was {formatDuration(this.enemies.getBuffUptime(SPELLS.FRAILTY.id))}.</>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FRAILTY_TALENT}>
+        <TalentSpellText talent={FRAILTY_TALENT}>
           <UptimeIcon /> {formatPercentage(this.uptime)}% <small>uptime</small>
         </TalentSpellText>
       </Statistic>

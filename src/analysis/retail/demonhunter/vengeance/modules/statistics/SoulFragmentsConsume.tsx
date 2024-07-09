@@ -1,5 +1,5 @@
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent, ChangeBuffStackEvent, EventType } from 'parser/core/Events';
 import EventEmitter from 'parser/core/modules/EventEmitter';
@@ -8,6 +8,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 
 import SoulFragmentsTracker, { MAX_SOUL_FRAGMENTS } from '../features/SoulFragmentsTracker';
+import { SOUL_BARRIER_TALENT, SPIRIT_BOMB_TALENT } from 'common/TALENTS/demonhunter';
 
 const REMOVE_STACK_BUFFER = 100;
 
@@ -33,11 +34,7 @@ class SoulFragmentsConsume extends Analyzer {
     this.addEventListener(
       Events.cast
         .by(SELECTED_PLAYER)
-        .spell([
-          TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT,
-          SPELLS.SOUL_CLEAVE,
-          TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT,
-        ]),
+        .spell([SPIRIT_BOMB_TALENT, SPELLS.SOUL_CLEAVE, SOUL_BARRIER_TALENT]),
       this.onCast,
     );
     this.addEventListener(

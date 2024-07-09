@@ -1,6 +1,6 @@
 import { formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+import { FEL_BARRAGE_TALENT } from 'common/TALENTS/demonhunter';
 import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent, DamageEvent } from 'parser/core/Events';
@@ -21,7 +21,7 @@ class FelBarrage extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FEL_BARRAGE_TALENT);
     if (!this.active) {
       return;
     }
@@ -30,7 +30,7 @@ class FelBarrage extends Analyzer {
       this.felBarrage,
     );
     this.addEventListener(
-      Events.cast.by(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT),
+      Events.cast.by(SELECTED_PLAYER).spell(FEL_BARRAGE_TALENT),
       this.felBarrageCasts,
     );
   }
@@ -68,14 +68,14 @@ class FelBarrage extends Analyzer {
     when(this.suggestionThresholds).addSuggestion((suggest, actual) =>
       suggest(
         <>
-          Try to cast <SpellLink spell={TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT} /> during{' '}
+          Try to cast <SpellLink spell={FEL_BARRAGE_TALENT} /> during{' '}
           <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} />.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT.icon)
+        .icon(FEL_BARRAGE_TALENT.icon)
         .actual(
           <>
-            {actual} bad <SpellLink spell={TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT} /> casts without{' '}
+            {actual} bad <SpellLink spell={FEL_BARRAGE_TALENT} /> casts without{' '}
             <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} />.
           </>,
         )
@@ -98,7 +98,7 @@ class FelBarrage extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FEL_BARRAGE_TALENT}>
+        <TalentSpellText talent={FEL_BARRAGE_TALENT}>
           {this.badCasts}{' '}
           <small>
             casts without <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} />{' '}

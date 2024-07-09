@@ -1,10 +1,10 @@
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent, DamageEvent, FightEndEvent } from 'parser/core/Events';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import { addInefficientCastReason } from 'parser/core/EventMetaLib';
+import { FIRST_BLOOD_TALENT, TRAIL_OF_RUIN_TALENT } from 'common/TALENTS/demonhunter';
 
 //Example data for bad cast https://wowanalyzer.com/report/g4Pja6pLHnmQtbvk/32-Normal+Sun+King's+Salvation+-+Kill+(10:14)/Zyg/standard
 //For Blade dance and Death Sweep
@@ -18,8 +18,8 @@ class BladeDance extends Analyzer {
   constructor(options: Options) {
     super(options);
     this.active = !(
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.TRAIL_OF_RUIN_TALENT) ||
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FIRST_BLOOD_TALENT)
+      this.selectedCombatant.hasTalent(TRAIL_OF_RUIN_TALENT) ||
+      this.selectedCombatant.hasTalent(FIRST_BLOOD_TALENT)
     );
     if (!this.active) {
       return;
@@ -86,8 +86,8 @@ class BladeDance extends Analyzer {
         <>
           You should not cast <SpellLink spell={SPELLS.BLADE_DANCE} /> or{' '}
           <SpellLink spell={SPELLS.DEATH_SWEEP} /> on single target when you are not using{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.FIRST_BLOOD_TALENT} /> or{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.TRAIL_OF_RUIN_TALENT} /> as a talent.
+          <SpellLink spell={FIRST_BLOOD_TALENT} /> or <SpellLink spell={TRAIL_OF_RUIN_TALENT} /> as
+          a talent.
         </>,
       )
         .icon(SPELLS.BLADE_DANCE.icon)

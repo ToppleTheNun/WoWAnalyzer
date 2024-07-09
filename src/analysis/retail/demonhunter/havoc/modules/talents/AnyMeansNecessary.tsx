@@ -1,5 +1,5 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+
 import Events, { DamageEvent } from 'parser/core/Events';
 import SPELLS from 'common/SPELLS/demonhunter';
 import Statistic from 'parser/ui/Statistic';
@@ -7,16 +7,21 @@ import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import { formatNumber, formatPercentage, formatThousands } from 'common/format';
 import Spell from 'common/SPELLS/Spell';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import {
+  ANY_MEANS_NECESSARY_TALENT,
+  SIGIL_OF_SPITE_TALENT,
+  THE_HUNT_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 const SPELLS_CONVERTED: Spell[] = [
   SPELLS.IMMOLATION_AURA,
   SPELLS.SIGIL_OF_FLAME,
   SPELLS.SIGIL_OF_FLAME_PRECISE,
   SPELLS.SIGIL_OF_FLAME_DEBUFF,
-  TALENTS_DEMON_HUNTER.THE_HUNT_TALENT,
+  THE_HUNT_TALENT,
   SPELLS.THE_HUNT_CHARGE,
   SPELLS.THE_HUNT_DOT,
-  TALENTS_DEMON_HUNTER.SIGIL_OF_SPITE_TALENT,
+  SIGIL_OF_SPITE_TALENT,
   SPELLS.SIGIL_OF_SPITE_PRECISE,
 ];
 
@@ -25,7 +30,7 @@ export default class AnyMeansNecessary extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.ANY_MEANS_NECESSARY_TALENT);
+    this.active = this.selectedCombatant.hasTalent(ANY_MEANS_NECESSARY_TALENT);
     if (!this.active) {
       return;
     }
@@ -46,7 +51,7 @@ export default class AnyMeansNecessary extends Analyzer {
         category={STATISTIC_CATEGORY.TALENTS}
         tooltip={`${formatThousands(this.damage)} Total damage`}
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.ANY_MEANS_NECESSARY_TALENT}>
+        <TalentSpellText talent={ANY_MEANS_NECESSARY_TALENT}>
           <img src="/img/sword.png" alt="Damage" className="icon" />
           {formatNumber((this.damage / this.owner.fightDuration) * 1000)} DPS converted{' '}
           <small>

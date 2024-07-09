@@ -7,8 +7,9 @@ import { NumberThreshold, ThresholdStyle, When } from 'parser/core/ParseResults'
 import Enemies from 'parser/shared/modules/Enemies';
 import { Uptime } from 'parser/ui/UptimeBar';
 import { shouldIgnore } from 'parser/shared/modules/hit-tracking/utilities';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import HitBasedAnalyzer from 'analysis/retail/demonhunter/vengeance/guide/HitBasedAnalyzer';
+import { FIERY_BRAND_TALENT } from 'common/TALENTS/demonhunter';
 
 type TrackedHit = {
   mitigated: boolean;
@@ -28,7 +29,7 @@ export default class FieryBrand extends HitBasedAnalyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FIERY_BRAND_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FIERY_BRAND_TALENT);
     if (!this.active) {
       return;
     }
@@ -68,12 +69,12 @@ export default class FieryBrand extends HitBasedAnalyzer {
     when(this.suggestionThresholdsEfficiency).addSuggestion((suggest, actual, recommended) =>
       suggest(
         <>
-          Cast <SpellLink spell={TALENTS_DEMON_HUNTER.FIERY_BRAND_TALENT} /> more regularly while
-          actively tanking the boss or when they use a big attack. You missed having it up for{' '}
+          Cast <SpellLink spell={FIERY_BRAND_TALENT} /> more regularly while actively tanking the
+          boss or when they use a big attack. You missed having it up for{' '}
           {formatPercentage(1 - actual)}% of hits.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.FIERY_BRAND_TALENT.icon)
+        .icon(FIERY_BRAND_TALENT.icon)
         .actual(`${formatPercentage(actual)}% unmitigated hits`)
         .recommended(`<${formatPercentage(recommended)}% is recommended`),
     );

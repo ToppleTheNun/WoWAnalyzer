@@ -1,6 +1,13 @@
 import { formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+import {
+  DEMONIC_TALENT,
+  ESSENCE_BREAK_TALENT,
+  EYE_BEAM_TALENT,
+  INITIATIVE_TALENT,
+  INNER_DEMON_TALENT,
+  VENGEFUL_RETREAT_TALENT,
+} from 'common/TALENTS/demonhunter';
 import { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import { calculateEffectiveDamage } from 'parser/core/EventCalculateLib';
 import Events, { CastEvent, DamageEvent } from 'parser/core/Events';
@@ -68,17 +75,14 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
   private talentDamage = 0;
 
   constructor(options: Options) {
-    super({ spell: TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT }, options);
-    this.addEventListener(
-      Events.cast.by(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT),
-      this.onCast,
-    );
+    super({ spell: ESSENCE_BREAK_TALENT }, options);
+    this.addEventListener(Events.cast.by(SELECTED_PLAYER).spell(ESSENCE_BREAK_TALENT), this.onCast);
     this.addEventListener(
       Events.damage.by(SELECTED_PLAYER).spell(DAMAGE_SPELLS),
       this.onBuffedSpellDamage,
     );
     this.addEventListener(
-      Events.damage.by(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT),
+      Events.damage.by(SELECTED_PLAYER).spell(ESSENCE_BREAK_TALENT),
       this.onEssBDamage,
     );
   }
@@ -103,13 +107,13 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
           <SpellLink spell={SPELLS.ANNIHILATION} />
           /
           <SpellLink spell={SPELLS.BLADE_DANCE} /> / <SpellLink spell={SPELLS.DEATH_SWEEP} /> during
-          your <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> window.
+          your <SpellLink spell={ESSENCE_BREAK_TALENT} /> window.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT.icon)
+        .icon(ESSENCE_BREAK_TALENT.icon)
         .actual(
           <>
-            {actual} bad <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> casts.
+            {actual} bad <SpellLink spell={ESSENCE_BREAK_TALENT} /> casts.
           </>,
         )
         .recommended('No bad casts is recommended.'),
@@ -133,7 +137,7 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT}>
+        <TalentSpellText talent={ESSENCE_BREAK_TALENT}>
           <ItemDamageDone amount={totalDamage} />
         </TalentSpellText>
       </Statistic>
@@ -141,16 +145,16 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
   }
 
   description(): ReactNode {
-    const hasDemonic = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.DEMONIC_TALENT);
-    const hasInitiative = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.INITIATIVE_TALENT);
-    const hasInnerDemon = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.INNER_DEMON_TALENT);
+    const hasDemonic = this.selectedCombatant.hasTalent(DEMONIC_TALENT);
+    const hasInitiative = this.selectedCombatant.hasTalent(INITIATIVE_TALENT);
+    const hasInnerDemon = this.selectedCombatant.hasTalent(INNER_DEMON_TALENT);
 
     return (
       <>
         <ExplanationSection>
           <p>
             <strong>
-              <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} />
+              <SpellLink spell={ESSENCE_BREAK_TALENT} />
             </strong>{' '}
             is a powerful burst of damage that also amplifies the damage done by{' '}
             <SpellLink spell={SPELLS.CHAOS_STRIKE} />, <SpellLink spell={SPELLS.ANNIHILATION} />,{' '}
@@ -174,12 +178,12 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
           element="section"
         >
           <div>
-            An <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> window with{' '}
+            An <SpellLink spell={ESSENCE_BREAK_TALENT} /> window with{' '}
             <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} /> available will look like:
             <ul>
               {hasDemonic && (
                 <li>
-                  <SpellLink spell={TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT} />
+                  <SpellLink spell={EYE_BEAM_TALENT} />
                 </li>
               )}
               {hasInnerDemon && (
@@ -189,11 +193,11 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
               )}
               {hasInitiative && (
                 <li>
-                  <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />
+                  <SpellLink spell={VENGEFUL_RETREAT_TALENT} />
                 </li>
               )}
               <li>
-                <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} />
+                <SpellLink spell={ESSENCE_BREAK_TALENT} />
               </li>
               <li>
                 <SpellLink spell={SPELLS.DEATH_SWEEP} />
@@ -216,12 +220,12 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
           element="section"
         >
           <div>
-            An <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> window without{' '}
+            An <SpellLink spell={ESSENCE_BREAK_TALENT} /> window without{' '}
             <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} /> available will look like:
             <ul>
               {hasDemonic && (
                 <li>
-                  <SpellLink spell={TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT} />
+                  <SpellLink spell={EYE_BEAM_TALENT} />
                 </li>
               )}
               {hasInnerDemon && (
@@ -231,11 +235,11 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
               )}
               {hasInitiative && (
                 <li>
-                  <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />
+                  <SpellLink spell={VENGEFUL_RETREAT_TALENT} />
                 </li>
               )}
               <li>
-                <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} />
+                <SpellLink spell={ESSENCE_BREAK_TALENT} />
               </li>
               <li>
                 <SpellLink spell={SPELLS.DEATH_SWEEP} />
@@ -254,7 +258,7 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
   }
 
   explainPerformance(cast: EssenceBreakCooldownCast): SpellUse {
-    if (!this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.DEMONIC_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(DEMONIC_TALENT)) {
       return {
         event: cast.event,
         performance: QualitativePerformance.Fail,
@@ -266,14 +270,14 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
             timestamp: cast.event.timestamp,
             summary: (
               <div>
-                Did not have <SpellLink spell={TALENTS_DEMON_HUNTER.DEMONIC_TALENT} /> talented
+                Did not have <SpellLink spell={DEMONIC_TALENT} /> talented
               </div>
             ),
             details: (
               <div>
-                Did not have <SpellLink spell={TALENTS_DEMON_HUNTER.DEMONIC_TALENT} /> talented. In
-                order to get the maximum amount of damage possible out of Essence Break, you should
-                use <SpellLink spell={TALENTS_DEMON_HUNTER.DEMONIC_TALENT} />.
+                Did not have <SpellLink spell={DEMONIC_TALENT} /> talented. In order to get the
+                maximum amount of damage possible out of Essence Break, you should use{' '}
+                <SpellLink spell={DEMONIC_TALENT} />.
               </div>
             ),
           },
@@ -342,20 +346,20 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
       details: (
         <div>
           You were in <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC_BUFF} /> when you cast{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} />. Good job!
+          <SpellLink spell={ESSENCE_BREAK_TALENT} />. Good job!
         </div>
       ),
     };
   }
 
   private initiativePerformance(cast: EssenceBreakCooldownCast): UsageInfo | undefined {
-    if (!this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.INITIATIVE_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(INITIATIVE_TALENT)) {
       return undefined;
     }
 
     const summary = (
       <div>
-        Had <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff
+        Had <SpellLink spell={INITIATIVE_TALENT} /> buff
       </div>
     );
 
@@ -366,7 +370,7 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
         summary: summary,
         details: (
           <div>
-            Had <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff.
+            Had <SpellLink spell={INITIATIVE_TALENT} /> buff.
           </div>
         ),
       };
@@ -377,10 +381,9 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
         summary: summary,
         details: (
           <div>
-            Cast shortly after casting{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />. You might have been
-            damaged and lost your <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff,
-            but that's okay, you still did your rotation correctly.
+            Cast shortly after casting <SpellLink spell={VENGEFUL_RETREAT_TALENT} />. You might have
+            been damaged and lost your <SpellLink spell={INITIATIVE_TALENT} /> buff, but that's
+            okay, you still did your rotation correctly.
           </div>
         ),
       };
@@ -390,11 +393,9 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
       summary: summary,
       details: (
         <div>
-          Cast without previously casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />. Try casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} /> before casting for the
-          critical strike chance buff that it applies (courtesy of{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} />
+          Cast without previously casting <SpellLink spell={VENGEFUL_RETREAT_TALENT} />. Try casting{' '}
+          <SpellLink spell={VENGEFUL_RETREAT_TALENT} /> before casting for the critical strike
+          chance buff that it applies (courtesy of <SpellLink spell={INITIATIVE_TALENT} />
           ).
         </div>
       ),
@@ -452,7 +453,7 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
           <div>
             You cast {cast.deathSweepCasts} <SpellLink spell={SPELLS.DEATH_SWEEP} />
             (s). Always try to cast <SpellLink spell={SPELLS.DEATH_SWEEP} /> during your{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> window.
+            <SpellLink spell={ESSENCE_BREAK_TALENT} /> window.
           </div>
         ),
       };
@@ -467,7 +468,7 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
             You cast {cast.deathSweepCasts} <SpellLink spell={SPELLS.DEATH_SWEEP} /> and no other
             buffed spells. Try adding another <SpellLink spell={SPELLS.ANNIHILATION} /> or{' '}
             <SpellLink spell={SPELLS.CHAOS_STRIKE} /> inside your{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> window.
+            <SpellLink spell={ESSENCE_BREAK_TALENT} /> window.
           </div>
         ),
       };
@@ -483,7 +484,7 @@ class EssenceBreak extends MajorCooldown<EssenceBreakCooldownCast> {
             {cast.annihilationCasts} <SpellLink spell={SPELLS.ANNIHILATION} />, and{' '}
             {cast.chaosStrikeCasts} <SpellLink spell={SPELLS.CHAOS_STRIKE} />. Try adding another{' '}
             <SpellLink spell={SPELLS.ANNIHILATION} /> or <SpellLink spell={SPELLS.CHAOS_STRIKE} />{' '}
-            inside your <SpellLink spell={TALENTS_DEMON_HUNTER.ESSENCE_BREAK_TALENT} /> window.
+            inside your <SpellLink spell={ESSENCE_BREAK_TALENT} /> window.
           </div>
         ),
       };

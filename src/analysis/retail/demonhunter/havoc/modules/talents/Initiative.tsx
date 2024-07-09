@@ -1,5 +1,5 @@
 import Analyzer, { Options } from 'parser/core/Analyzer';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+import { INITIATIVE_TALENT } from 'common/TALENTS/demonhunter';
 import SPELLS from 'common/SPELLS/demonhunter';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import { SpellLink } from 'interface';
@@ -12,7 +12,7 @@ import TalentSpellText from 'parser/ui/TalentSpellText';
 export default class Initiative extends Analyzer {
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.INITIATIVE_TALENT);
+    this.active = this.selectedCombatant.hasTalent(INITIATIVE_TALENT);
   }
 
   get buffUptime() {
@@ -42,11 +42,10 @@ export default class Initiative extends Analyzer {
       suggest(
         <>
           {' '}
-          Maintain the <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff to maximize
-          damage.
+          Maintain the <SpellLink spell={INITIATIVE_TALENT} /> buff to maximize damage.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.INITIATIVE_TALENT.icon)
+        .icon(INITIATIVE_TALENT.icon)
         .actual(`${formatPercentage(actual)}% buff uptime`)
         .recommended(`${formatPercentage(recommended)}% is recommended.`),
     );
@@ -59,7 +58,7 @@ export default class Initiative extends Analyzer {
         size="flexible"
         tooltip={`The Initiative buff total uptime was ${formatDuration(this.buffDuration)}.`}
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT}>
+        <TalentSpellText talent={INITIATIVE_TALENT}>
           <UptimeIcon /> {formatPercentage(this.buffUptime)}% <small>uptime</small>
         </TalentSpellText>
       </Statistic>

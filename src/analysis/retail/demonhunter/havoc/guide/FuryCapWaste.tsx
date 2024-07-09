@@ -6,7 +6,7 @@ import Tooltip from 'interface/Tooltip';
 import InformationIcon from 'interface/icons/Information';
 
 import PerformancePercentage from '../../shared/guide/PerformancePercentage';
-import TALENTS from 'common/TALENTS/demonhunter';
+import { BLIND_FURY_TALENT } from 'common/TALENTS/demonhunter';
 
 interface Props {
   percentAtCap: number;
@@ -42,17 +42,17 @@ const FuryCapWaste = ({
         flatAmount={wasted}
       />{' '}
       of your <ResourceLink id={RESOURCE_TYPES.FURY.id} />.
-      {info.combatant.hasTalent(TALENTS.BLIND_FURY_TALENT) && (
+      {info.combatant.hasTalent(BLIND_FURY_TALENT) && (
         <>
           {' '}
           <Tooltip
             content={
               <div>
                 <ResourceLink id={RESOURCE_TYPES.FURY.id} /> from{' '}
-                <SpellLink spell={TALENTS.BLIND_FURY_TALENT} /> isn't logged by the game and won't
-                show up on WarcraftLogs; we determine the amount generated based on best guesses
-                from existing log events. As a result, the amount shown here may vary from what WCL
-                shows and the actual amount in-game.
+                <SpellLink spell={BLIND_FURY_TALENT} /> isn't logged by the game and won't show up
+                on WarcraftLogs; we determine the amount generated based on best guesses from
+                existing log events. As a result, the amount shown here may vary from what WCL shows
+                and the actual amount in-game.
               </div>
             }
           >

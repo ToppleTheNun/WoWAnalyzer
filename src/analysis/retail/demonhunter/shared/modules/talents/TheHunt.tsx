@@ -1,6 +1,6 @@
 import { formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent, DamageEvent, HealEvent } from 'parser/core/Events';
@@ -24,6 +24,13 @@ import {
 import { getPreviousVengefulRetreat } from 'analysis/retail/demonhunter/havoc/normalizers/TheHuntVengefulRetreatNormalizer';
 import { combineQualitativePerformances } from 'common/combineQualitativePerformances';
 import { isDefined } from 'common/typeGuards';
+import {
+  INITIATIVE_TALENT,
+  SOULCRUSH_TALENT,
+  THE_HUNT_TALENT,
+  VENGEFUL_RETREAT_TALENT,
+  VULNERABILITY_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 const PERFECT_FRAILTY_STACKS = 5;
 const GOOD_FRAILTY_STACKS = 3;
@@ -48,16 +55,13 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
   protected enemies!: Enemies;
 
   constructor(options: Options) {
-    super({ spell: TALENTS_DEMON_HUNTER.THE_HUNT_TALENT }, options);
+    super({ spell: THE_HUNT_TALENT }, options);
 
     this.addEventListener(
       Events.heal.by(SELECTED_PLAYER).spell([SPELLS.THE_HUNT_HEAL]),
       this.onHeal,
     );
-    this.addEventListener(
-      Events.cast.by(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.THE_HUNT_TALENT),
-      this.onCast,
-    );
+    this.addEventListener(Events.cast.by(SELECTED_PLAYER).spell(THE_HUNT_TALENT), this.onCast);
   }
 
   statistic() {
@@ -76,7 +80,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT}>
+        <TalentSpellText talent={THE_HUNT_TALENT}>
           <ItemDamageDone amount={this.damage} />
           <br />
           <ItemHealingDone amount={this.heal} />
@@ -91,7 +95,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
       return (
         <>
           <strong>
-            <SpellLink spell={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT} />
+            <SpellLink spell={THE_HUNT_TALENT} />
           </strong>{' '}
           is a powerful burst of damage that also provides some healing with the DoT that it
           applies.
@@ -102,7 +106,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
     return (
       <>
         <strong>
-          <SpellLink spell={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT} />
+          <SpellLink spell={THE_HUNT_TALENT} />
         </strong>{' '}
         is a powerful burst of damage that also provides some healing with the DoT that it applies.
         <VulnerabilityExplanation numberOfFrailtyStacks={GOOD_FRAILTY_STACKS} />
@@ -208,7 +212,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
   }
 
   private initiativePerformance(cast: TheHuntCooldownCast): UsageInfo | undefined {
-    if (!this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.INITIATIVE_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(INITIATIVE_TALENT)) {
       return undefined;
     }
     const previousVengefulRetreat = getPreviousVengefulRetreat(cast.event);
@@ -217,12 +221,12 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
         performance: QualitativePerformance.Perfect,
         summary: (
           <div>
-            Had <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff
+            Had <SpellLink spell={INITIATIVE_TALENT} /> buff
           </div>
         ),
         details: (
           <div>
-            Had <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff.
+            Had <SpellLink spell={INITIATIVE_TALENT} /> buff.
           </div>
         ),
       };
@@ -232,16 +236,14 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
         performance: QualitativePerformance.Good,
         summary: (
           <div>
-            Cast shortly after casting{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />
+            Cast shortly after casting <SpellLink spell={VENGEFUL_RETREAT_TALENT} />
           </div>
         ),
         details: (
           <div>
-            Cast shortly after casting{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />. You might have been
-            damaged and lost your <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} /> buff,
-            but that's okay, you still did your rotation correctly.
+            Cast shortly after casting <SpellLink spell={VENGEFUL_RETREAT_TALENT} />. You might have
+            been damaged and lost your <SpellLink spell={INITIATIVE_TALENT} /> buff, but that's
+            okay, you still did your rotation correctly.
           </div>
         ),
       };
@@ -250,17 +252,14 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
       performance: QualitativePerformance.Fail,
       summary: (
         <div>
-          Cast without previously casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />
+          Cast without previously casting <SpellLink spell={VENGEFUL_RETREAT_TALENT} />
         </div>
       ),
       details: (
         <div>
-          Cast without previously casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} />. Try casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT} /> before casting for the
-          critical strike chance buff that it applies (courtesy of{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.INITIATIVE_TALENT} />
+          Cast without previously casting <SpellLink spell={VENGEFUL_RETREAT_TALENT} />. Try casting{' '}
+          <SpellLink spell={VENGEFUL_RETREAT_TALENT} /> before casting for the critical strike
+          chance buff that it applies (courtesy of <SpellLink spell={INITIATIVE_TALENT} />
           ).
         </div>
       ),
@@ -268,10 +267,10 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
   }
 
   private frailtyPerformance(cast: TheHuntCooldownCast): UsageInfo | undefined {
-    if (!this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.VULNERABILITY_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(VULNERABILITY_TALENT)) {
       return undefined;
     }
-    if (!this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SOULCRUSH_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(SOULCRUSH_TALENT)) {
       if (cast.primaryTargetStacksOfFrailty > 0) {
         return {
           performance: QualitativePerformance.Perfect,
@@ -298,7 +297,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
           <div>
             <SpellLink spell={SPELLS.FRAILTY} /> not applied to target. Make sure to apply{' '}
             <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT} />.
+            <SpellLink spell={THE_HUNT_TALENT} />.
           </div>
         ),
       };
@@ -335,7 +334,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
             Only {cast.primaryTargetStacksOfFrailty} stack(s) of{' '}
             <SpellLink spell={SPELLS.FRAILTY} /> applied to target. Try applying at least{' '}
             {PERFECT_FRAILTY_STACKS} stack(s) of <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT} />.
+            <SpellLink spell={THE_HUNT_TALENT} />.
           </div>
         ),
       };
@@ -354,7 +353,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
             Only {cast.primaryTargetStacksOfFrailty} stack(s) of{' '}
             <SpellLink spell={SPELLS.FRAILTY} /> applied to target. Try applying at least{' '}
             {PERFECT_FRAILTY_STACKS} stack(s) of <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT} />.
+            <SpellLink spell={THE_HUNT_TALENT} />.
           </div>
         ),
       };
@@ -371,8 +370,7 @@ class TheHunt extends MajorCooldown<TheHuntCooldownCast> {
         <div>
           Only {cast.primaryTargetStacksOfFrailty} stack(s) of <SpellLink spell={SPELLS.FRAILTY} />{' '}
           applied to target. Try applying at least {PERFECT_FRAILTY_STACKS} stack(s) of{' '}
-          <SpellLink spell={SPELLS.FRAILTY} /> before casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.THE_HUNT_TALENT} />.
+          <SpellLink spell={SPELLS.FRAILTY} /> before casting <SpellLink spell={THE_HUNT_TALENT} />.
         </div>
       ),
     };

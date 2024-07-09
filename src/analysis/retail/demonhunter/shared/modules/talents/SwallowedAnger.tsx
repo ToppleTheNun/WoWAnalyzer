@@ -1,10 +1,11 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Events, { ResourceChangeEvent } from 'parser/core/Events';
 import SPELLS from 'common/SPELLS/demonhunter';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { SWALLOWED_ANGER_TALENT } from 'common/TALENTS/demonhunter';
 
 export default class SwallowedAnger extends Analyzer {
   furyGain = 0;
@@ -12,7 +13,7 @@ export default class SwallowedAnger extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SWALLOWED_ANGER_TALENT);
+    this.active = this.selectedCombatant.hasTalent(SWALLOWED_ANGER_TALENT);
     if (!this.active) {
       return;
     }
@@ -47,7 +48,7 @@ export default class SwallowedAnger extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.SWALLOWED_ANGER_TALENT}>
+        <TalentSpellText talent={SWALLOWED_ANGER_TALENT}>
           {this.furyPerMin} <small>Fury per min</small>
         </TalentSpellText>
       </Statistic>

@@ -1,5 +1,4 @@
 import { GuideProps, Section, SubSection } from 'interface/guide';
-import TALENTS from 'common/TALENTS/demonhunter';
 import { ResourceLink, SpellLink } from 'interface';
 import PreparationSection from 'interface/guide/components/Preparation/PreparationSection';
 import { explanationAndDataSubsection } from 'interface/guide/components/ExplanationRow';
@@ -19,6 +18,11 @@ import { HideGoodCastsToggle } from 'interface/guide/components/HideGoodCastsTog
 import { PerformanceStrong } from 'analysis/retail/priest/shadow/modules/guide/ExtraComponents';
 import { formatPercentage } from 'common/format';
 import ActiveTimeGraph from 'parser/ui/ActiveTimeGraph';
+import {
+  FEL_BARRAGE_TALENT,
+  GLAIVE_TEMPEST_TALENT,
+  SIGIL_OF_SPITE_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 export default function Guide({ modules, events, info }: GuideProps<typeof CombatLogParser>) {
   return (
@@ -87,24 +91,24 @@ function CooldownSection({ modules, info }: GuideProps<typeof CombatLogParser>) 
       <CooldownGraphSubsection />
       <CooldownUsage analyzer={modules.essenceBreak} title="Essence Break" />
       <CooldownUsage analyzer={modules.eyeBeam} title="Eye Beam" />
-      {info.combatant.hasTalent(TALENTS.SIGIL_OF_SPITE_TALENT) &&
+      {info.combatant.hasTalent(SIGIL_OF_SPITE_TALENT) &&
         explanationAndDataSubsection(
           <div>
-            Per-cast breakdown for <SpellLink spell={TALENTS.SIGIL_OF_SPITE_TALENT} /> coming soon!
+            Per-cast breakdown for <SpellLink spell={SIGIL_OF_SPITE_TALENT} /> coming soon!
           </div>,
           <></>,
         )}
-      {info.combatant.hasTalent(TALENTS.GLAIVE_TEMPEST_TALENT) &&
+      {info.combatant.hasTalent(GLAIVE_TEMPEST_TALENT) &&
         explanationAndDataSubsection(
           <div>
-            Per-cast breakdown for <SpellLink spell={TALENTS.GLAIVE_TEMPEST_TALENT} /> coming soon!
+            Per-cast breakdown for <SpellLink spell={GLAIVE_TEMPEST_TALENT} /> coming soon!
           </div>,
           <></>,
         )}
-      {info.combatant.hasTalent(TALENTS.FEL_BARRAGE_TALENT) &&
+      {info.combatant.hasTalent(FEL_BARRAGE_TALENT) &&
         explanationAndDataSubsection(
           <div>
-            Per-cast breakdown for <SpellLink spell={TALENTS.FEL_BARRAGE_TALENT} /> coming soon!
+            Per-cast breakdown for <SpellLink spell={FEL_BARRAGE_TALENT} /> coming soon!
           </div>,
           <></>,
         )}

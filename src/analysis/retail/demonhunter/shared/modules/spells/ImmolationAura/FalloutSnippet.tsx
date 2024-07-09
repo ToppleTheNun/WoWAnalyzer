@@ -1,11 +1,12 @@
 import { useInfo } from 'interface/guide';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import SPELLS from 'common/SPELLS/demonhunter';
+import { FALLOUT_TALENT } from 'common/TALENTS/demonhunter';
 
 const FalloutSnippet = () => {
   const info = useInfo();
-  if (!info || !info.combatant.hasTalent(TALENTS_DEMON_HUNTER.FALLOUT_TALENT)) {
+  if (!info || !info.combatant.hasTalent(FALLOUT_TALENT)) {
     // This is intentionally an empty fragment.
     return <></>;
   }
@@ -13,7 +14,7 @@ const FalloutSnippet = () => {
     <>
       {' '}
       and having a chance to shatter a <SpellLink spell={SPELLS.SOUL_FRAGMENT} /> with{' '}
-      <SpellLink spell={TALENTS_DEMON_HUNTER.FALLOUT_TALENT} />
+      <SpellLink spell={FALLOUT_TALENT} />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import SPELLS from 'common/SPELLS/demonhunter';
-import TALENTS from 'common/TALENTS/demonhunter';
 import Events, { CastEvent } from 'parser/core/Events';
 import { ChecklistUsageInfo, SpellUse, UsageInfo } from 'parser/core/SpellUsage/core';
 import MajorCooldown, { CooldownTrigger } from 'parser/core/MajorCooldowns/MajorCooldown';
@@ -11,6 +10,7 @@ import { combineQualitativePerformances } from 'common/combineQualitativePerform
 import DemonicExplanation from './DemonicExplanation';
 import { getFuriousGazeBuffApplication } from '../../../normalizers/FuriousGazeNormalizer';
 import FuriousGazeExplanation from '../../../modules/talents/EyeBeam/FuriousGazeExplanation';
+import { EYE_BEAM_TALENT, FURIOUS_GAZE_TALENT } from 'common/TALENTS/demonhunter';
 
 interface EyeBeamCooldownCast extends CooldownTrigger<CastEvent> {
   triggeredFuriousGaze: boolean;
@@ -22,12 +22,9 @@ export default class EyeBeam extends MajorCooldown<EyeBeamCooldownCast> {
   };
 
   constructor(options: Options) {
-    super({ spell: TALENTS.EYE_BEAM_TALENT }, options);
-    this.active = this.active && this.selectedCombatant.hasTalent(TALENTS.FURIOUS_GAZE_TALENT);
-    this.addEventListener(
-      Events.cast.by(SELECTED_PLAYER).spell(TALENTS.EYE_BEAM_TALENT),
-      this.onCast,
-    );
+    super({ spell: EYE_BEAM_TALENT }, options);
+    this.active = this.active && this.selectedCombatant.hasTalent(FURIOUS_GAZE_TALENT);
+    this.addEventListener(Events.cast.by(SELECTED_PLAYER).spell(EYE_BEAM_TALENT), this.onCast);
   }
 
   description() {
@@ -35,7 +32,7 @@ export default class EyeBeam extends MajorCooldown<EyeBeamCooldownCast> {
       <>
         <section style={{ marginBottom: 20 }}>
           <strong>
-            <SpellLink spell={TALENTS.EYE_BEAM_TALENT} />
+            <SpellLink spell={EYE_BEAM_TALENT} />
           </strong>{' '}
           is a channeled ability that deals heavy chaos damage to all enemies in front of you.
         </section>
@@ -74,7 +71,7 @@ export default class EyeBeam extends MajorCooldown<EyeBeamCooldownCast> {
   }
 
   private furiousGazePerformance(cast: EyeBeamCooldownCast): UsageInfo | undefined {
-    if (!this.selectedCombatant.hasTalent(TALENTS.FURIOUS_GAZE_TALENT)) {
+    if (!this.selectedCombatant.hasTalent(FURIOUS_GAZE_TALENT)) {
       return undefined;
     }
 
@@ -87,7 +84,7 @@ export default class EyeBeam extends MajorCooldown<EyeBeamCooldownCast> {
         details: (
           <div>
             You triggered <SpellLink spell={SPELLS.FURIOUS_GAZE} /> by fully channeling your{' '}
-            <SpellLink spell={TALENTS.EYE_BEAM_TALENT} /> cast. Good job!
+            <SpellLink spell={EYE_BEAM_TALENT} /> cast. Good job!
           </div>
         ),
       };
@@ -98,8 +95,8 @@ export default class EyeBeam extends MajorCooldown<EyeBeamCooldownCast> {
       details: (
         <div>
           You did not trigger <SpellLink spell={SPELLS.FURIOUS_GAZE} /> due to not fully channeling
-          your <SpellLink spell={TALENTS.EYE_BEAM_TALENT} /> cast. Always try to fully channel so
-          that you get the Haste buff.
+          your <SpellLink spell={EYE_BEAM_TALENT} /> cast. Always try to fully channel so that you
+          get the Haste buff.
         </div>
       ),
     };

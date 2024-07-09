@@ -1,6 +1,6 @@
 import { formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { DamageEvent } from 'parser/core/Events';
 import ItemDamageDone from 'parser/ui/ItemDamageDone';
@@ -8,13 +8,14 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import SPECS from 'game/SPECS';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { COLLECTIVE_ANGUISH_TALENT } from 'common/TALENTS/demonhunter';
 
 class CollectiveAnguish extends Analyzer {
   damage = 0;
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.COLLECTIVE_ANGUISH_TALENT);
+    this.active = this.selectedCombatant.hasTalent(COLLECTIVE_ANGUISH_TALENT);
     if (!this.active) {
       return;
     }
@@ -36,7 +37,7 @@ class CollectiveAnguish extends Analyzer {
         category={STATISTIC_CATEGORY.TALENTS}
         tooltip={<>{formatThousands(this.damage)} Total damage</>}
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.COLLECTIVE_ANGUISH_TALENT}>
+        <TalentSpellText talent={COLLECTIVE_ANGUISH_TALENT}>
           <ItemDamageDone amount={this.damage} />
         </TalentSpellText>
       </Statistic>

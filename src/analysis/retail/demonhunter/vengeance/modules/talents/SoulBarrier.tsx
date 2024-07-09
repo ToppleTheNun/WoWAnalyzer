@@ -1,5 +1,5 @@
 import { formatNumber, formatPercentage } from 'common/format';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import Uptime from 'interface/icons/Uptime';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
@@ -11,6 +11,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { SOUL_BARRIER_TALENT } from 'common/TALENTS/demonhunter';
 
 class SoulBarrier extends Analyzer {
   static dependencies = {
@@ -28,26 +29,23 @@ class SoulBarrier extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT);
+    this.active = this.selectedCombatant.hasTalent(SOUL_BARRIER_TALENT);
     this.addEventListener(
-      Events.applybuff.to(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT),
+      Events.applybuff.to(SELECTED_PLAYER).spell(SOUL_BARRIER_TALENT),
       this.onApplyBuff,
     );
     this.addEventListener(
-      Events.absorbed.to(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT),
+      Events.absorbed.to(SELECTED_PLAYER).spell(SOUL_BARRIER_TALENT),
       this.onAbsorb,
     );
     this.addEventListener(
-      Events.removebuff.to(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT),
+      Events.removebuff.to(SELECTED_PLAYER).spell(SOUL_BARRIER_TALENT),
       this.onRemoveBuff,
     );
   }
 
   get uptime() {
-    return (
-      this.selectedCombatant.getBuffUptime(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT.id) /
-      this.owner.fightDuration
-    );
+    return this.selectedCombatant.getBuffUptime(SOUL_BARRIER_TALENT.id) / this.owner.fightDuration;
   }
 
   get suggestionThresholdsEfficiency(): NumberThreshold {
@@ -72,7 +70,7 @@ class SoulBarrier extends Analyzer {
   }
 
   onRemoveBuff(event: RemoveBuffEvent) {
-    if (event.ability.guid !== TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT.id) {
+    if (event.ability.guid !== SOUL_BARRIER_TALENT.id) {
       return;
     }
     this.buffRemoved = event.timestamp;
@@ -84,11 +82,10 @@ class SoulBarrier extends Analyzer {
     when(this.suggestionThresholdsEfficiency).addSuggestion((suggest, actual, recommended) =>
       suggest(
         <>
-          Your uptime with <SpellLink spell={TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT} /> can be
-          improved.
+          Your uptime with <SpellLink spell={SOUL_BARRIER_TALENT} /> can be improved.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT.icon)
+        .icon(SOUL_BARRIER_TALENT.icon)
         .actual(`${formatPercentage(actual)}% Soul Barrier`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`),
     );
@@ -113,7 +110,7 @@ class SoulBarrier extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT}>
+        <TalentSpellText talent={SOUL_BARRIER_TALENT}>
           <Uptime /> {formatPercentage(this.uptime)}% <small>Uptime</small>
         </TalentSpellText>
       </Statistic>

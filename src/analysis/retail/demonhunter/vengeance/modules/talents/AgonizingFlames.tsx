@@ -1,6 +1,6 @@
 import { formatNumber } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Analyzer, { SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent, DamageEvent } from 'parser/core/Events';
 import { Options } from 'parser/core/EventSubscriber';
@@ -9,6 +9,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { AGONIZING_FLAMES_TALENT } from 'common/TALENTS/demonhunter';
 
 //WCL: https://www.warcraftlogs.com/reports/JxyY7HCDcjqMA9tf/#fight=1&source=15
 export default class AgonizingFlames extends Analyzer {
@@ -17,7 +18,7 @@ export default class AgonizingFlames extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.AGONIZING_FLAMES_TALENT);
+    this.active = this.selectedCombatant.hasTalent(AGONIZING_FLAMES_TALENT);
 
     if (!this.active) {
       return;
@@ -66,7 +67,7 @@ export default class AgonizingFlames extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.AGONIZING_FLAMES_TALENT}>
+        <TalentSpellText talent={AGONIZING_FLAMES_TALENT}>
           <ItemDamageDone amount={this.extendedImmolationAuraDamage} />
         </TalentSpellText>
       </Statistic>

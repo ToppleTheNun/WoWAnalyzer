@@ -1,6 +1,5 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import SPELLS from 'common/SPELLS/demonhunter';
-import TALENTS from 'common/TALENTS/demonhunter';
 import Events, { ApplyBuffEvent, RefreshBuffEvent, RemoveBuffEvent } from 'parser/core/Events';
 import { getUnboundChaosConsumption } from 'analysis/retail/demonhunter/havoc/normalizers/UnboundChaosNormalizer';
 import { Uptime } from 'parser/ui/UptimeBar';
@@ -18,6 +17,7 @@ import ContextualSpellUsageSubSection from 'parser/core/SpellUsage/HideGoodCasts
 import { logSpellUseEvent } from 'parser/core/SpellUsage/SpellUsageSubSection';
 import CastPerformanceSummary from 'analysis/retail/demonhunter/shared/guide/CastPerformanceSummary';
 import { combineQualitativePerformances } from 'common/combineQualitativePerformances';
+import { UNBOUND_CHAOS_TALENT } from 'common/TALENTS/demonhunter';
 
 type UnboundChaosUptime = Uptime & {
   event: ApplyBuffEvent | RefreshBuffEvent | RemoveBuffEvent;
@@ -30,7 +30,7 @@ export default class UnboundChaos extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS.UNBOUND_CHAOS_TALENT);
+    this.active = this.selectedCombatant.hasTalent(UNBOUND_CHAOS_TALENT);
     this.addEventListener(
       Events.applybuff.by(SELECTED_PLAYER).spell(SPELLS.UNBOUND_CHAOS_BUFF),
       this.onApplyBuff,
@@ -54,11 +54,11 @@ export default class UnboundChaos extends Analyzer {
     const explanation = (
       <section>
         <strong>
-          <SpellLink spell={TALENTS.UNBOUND_CHAOS_TALENT} />
+          <SpellLink spell={UNBOUND_CHAOS_TALENT} />
         </strong>{' '}
         provides a{' '}
         {formatPercentage(
-          UNBOUND_CHAOS_SCALING[this.selectedCombatant.getTalentRank(TALENTS.UNBOUND_CHAOS_TALENT)],
+          UNBOUND_CHAOS_SCALING[this.selectedCombatant.getTalentRank(UNBOUND_CHAOS_TALENT)],
           0,
         )}
         % damage increase to your next <SpellLink spell={SPELLS.FEL_RUSH_CAST} /> after casting{' '}
@@ -82,7 +82,7 @@ export default class UnboundChaos extends Analyzer {
         abovePerformanceDetails={
           <div style={{ marginBottom: 10 }}>
             <CastPerformanceSummary
-              spell={TALENTS.UNBOUND_CHAOS_TALENT}
+              spell={UNBOUND_CHAOS_TALENT}
               casts={goodCasts}
               performance={QualitativePerformance.Good}
               totalCasts={totalCasts}
@@ -102,9 +102,7 @@ export default class UnboundChaos extends Analyzer {
         category={STATISTIC_CATEGORY.TALENTS}
         size="flexible"
       >
-        <TalentSpellText talent={TALENTS.UNBOUND_CHAOS_TALENT}>
-          {wastedProcs} wasted procs
-        </TalentSpellText>
+        <TalentSpellText talent={UNBOUND_CHAOS_TALENT}>{wastedProcs} wasted procs</TalentSpellText>
       </Statistic>
     );
   }
@@ -185,14 +183,14 @@ export default class UnboundChaos extends Analyzer {
     );
     const details = consumed ? (
       <div>
-        You consumed your <SpellLink spell={TALENTS.UNBOUND_CHAOS_TALENT} /> buff by casting{' '}
+        You consumed your <SpellLink spell={UNBOUND_CHAOS_TALENT} /> buff by casting{' '}
         <SpellLink spell={SPELLS.FEL_RUSH_CAST} />. Good job!
       </div>
     ) : (
       <div>
-        You did not consume your <SpellLink spell={TALENTS.UNBOUND_CHAOS_TALENT} /> buff. Ensure
-        that every time you get <SpellLink spell={TALENTS.UNBOUND_CHAOS_TALENT} /> buff, you consume
-        it by casting <SpellLink spell={SPELLS.FEL_RUSH_CAST} />.
+        You did not consume your <SpellLink spell={UNBOUND_CHAOS_TALENT} /> buff. Ensure that every
+        time you get <SpellLink spell={UNBOUND_CHAOS_TALENT} /> buff, you consume it by casting{' '}
+        <SpellLink spell={SPELLS.FEL_RUSH_CAST} />.
       </div>
     );
 

@@ -1,6 +1,5 @@
 import { formatPercentage, formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { DamageEvent, ResourceChangeEvent } from 'parser/core/Events';
@@ -8,6 +7,7 @@ import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
+import { DEMON_BLADES_TALENT } from 'common/TALENTS/demonhunter';
 
 /**
  * Example Report: https://www.warcraftlogs.com/reports/KGJgZPxanBX82LzV/#fight=4&source=20
@@ -20,7 +20,7 @@ class DemonBite extends Analyzer {
   constructor(options: Options) {
     super(options);
     //The Demon Blades talent replaces the ability Demon Bite if picked
-    this.active = !this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.DEMON_BLADES_TALENT);
+    this.active = !this.selectedCombatant.hasTalent(DEMON_BLADES_TALENT);
     if (!this.active) {
       return;
     }

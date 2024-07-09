@@ -1,6 +1,6 @@
 import { formatNumber } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Analyzer, { SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { HealEvent } from 'parser/core/Events';
 import { Options } from 'parser/core/EventSubscriber';
@@ -8,6 +8,7 @@ import ItemHealingDone from 'parser/ui/ItemHealingDone';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { CHARRED_WARBLADES_TALENT } from 'common/TALENTS/demonhunter';
 
 export default class CharredWarblades extends Analyzer {
   heal = 0;
@@ -16,7 +17,7 @@ export default class CharredWarblades extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.CHARRED_WARBLADES_TALENT);
+    this.active = this.selectedCombatant.hasTalent(CHARRED_WARBLADES_TALENT);
     if (!this.active) {
       return;
     }
@@ -44,7 +45,7 @@ export default class CharredWarblades extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.CHARRED_WARBLADES_TALENT}>
+        <TalentSpellText talent={CHARRED_WARBLADES_TALENT}>
           <ItemHealingDone amount={this.heal} />
         </TalentSpellText>
       </Statistic>

@@ -1,13 +1,14 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import DH_SPELLS from 'common/SPELLS/demonhunter';
 import Events, { DamageEvent, ResourceChangeEvent } from 'parser/core/Events';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import SpellLink from 'interface/SpellLink';
 import { formatPercentage, formatThousands } from 'common/format';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { BURNING_HATRED_TALENT } from 'common/TALENTS/demonhunter';
 
 const IMMOLATION_AURA = [
   DH_SPELLS.IMMOLATION_AURA_INITIAL_HIT_DAMAGE,
@@ -20,7 +21,7 @@ export default class BurningHatred extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.BURNING_HATRED_TALENT);
+    this.active = this.selectedCombatant.hasTalent(BURNING_HATRED_TALENT);
     if (!this.active) {
       return;
     }
@@ -91,7 +92,7 @@ export default class BurningHatred extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.BURNING_HATRED_TALENT}>
+        <TalentSpellText talent={BURNING_HATRED_TALENT}>
           {this.furyPerMin} <small>Fury per min</small>
         </TalentSpellText>
       </Statistic>

@@ -1,5 +1,4 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
-import TALENTS from 'common/TALENTS/demonhunter';
 import SpellUsable from 'parser/shared/modules/SpellUsable';
 import Events, { ApplyDebuffEvent, CastEvent, DamageEvent } from 'parser/core/Events';
 import {
@@ -25,6 +24,7 @@ import CooldownIcon from 'interface/icons/Cooldown';
 import { formatDurationMillisMinSec } from 'common/format';
 import SpellLink from 'interface/SpellLink';
 import Abilities from 'analysis/retail/demonhunter/vengeance/modules/Abilities';
+import { CYCLE_OF_BINDING_TALENT } from 'common/TALENTS/demonhunter';
 
 const CDR = 3000;
 
@@ -44,7 +44,7 @@ export default class CycleOfBinding extends Analyzer.withDependencies(deps) {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS.CYCLE_OF_BINDING_TALENT);
+    this.active = this.selectedCombatant.hasTalent(CYCLE_OF_BINDING_TALENT);
 
     const sigilOfFlameSpell = getSigilOfFlameSpell(this.selectedCombatant);
     const sigilOfMiserySpell = getSigilOfMiserySpell(this.selectedCombatant);
@@ -113,7 +113,7 @@ export default class CycleOfBinding extends Analyzer.withDependencies(deps) {
           </table>
         }
       >
-        <TalentSpellText talent={TALENTS.CYCLE_OF_BINDING_TALENT}>
+        <TalentSpellText talent={CYCLE_OF_BINDING_TALENT}>
           <CooldownIcon /> {formatDurationMillisMinSec(totalCDR)} <small>Sigil cooldown CDR</small>
         </TalentSpellText>
       </Statistic>

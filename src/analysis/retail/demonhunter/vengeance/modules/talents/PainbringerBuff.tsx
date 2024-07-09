@@ -1,5 +1,5 @@
 import Analyzer, { Options } from 'parser/core/Analyzer';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+
 import SPELLS from 'common/SPELLS/demonhunter';
 import { NumberThreshold, ThresholdStyle, When } from 'parser/core/ParseResults';
 import { SpellLink } from 'interface';
@@ -9,12 +9,13 @@ import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import UptimeIcon from 'interface/icons/Uptime';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { PAINBRINGER_TALENT } from 'common/TALENTS/demonhunter';
 
 export default class PainbringerBuff extends Analyzer {
   constructor(options: Options) {
     super(options);
 
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.PAINBRINGER_TALENT);
+    this.active = this.selectedCombatant.hasTalent(PAINBRINGER_TALENT);
   }
 
   get uptime() {
@@ -39,11 +40,11 @@ export default class PainbringerBuff extends Analyzer {
     when(this.uptimeSuggestionThresholds).addSuggestion((suggest, actual, recommended) =>
       suggest(
         <>
-          Your <SpellLink spell={TALENTS_DEMON_HUNTER.PAINBRINGER_TALENT} /> uptime can be improved.
-          This is easy to maintain and an important source of damage reduction.
+          Your <SpellLink spell={PAINBRINGER_TALENT} /> uptime can be improved. This is easy to
+          maintain and an important source of damage reduction.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.PAINBRINGER_TALENT.icon)
+        .icon(PAINBRINGER_TALENT.icon)
         .actual(`${formatPercentage(actual)}% Painbringer uptime`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`),
     );
@@ -62,7 +63,7 @@ export default class PainbringerBuff extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.PAINBRINGER_TALENT}>
+        <TalentSpellText talent={PAINBRINGER_TALENT}>
           <UptimeIcon /> {formatPercentage(this.uptime)}% <small>uptime</small>
         </TalentSpellText>
       </Statistic>

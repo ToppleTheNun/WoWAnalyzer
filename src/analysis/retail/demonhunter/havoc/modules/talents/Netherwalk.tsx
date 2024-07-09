@@ -1,9 +1,9 @@
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { DamageEvent } from 'parser/core/Events';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { NETHERWALK_TALENT } from 'common/TALENTS/demonhunter';
 
 /**
  * Example Report: https://www.warcraftlogs.com/reports/PGMqmyH1b86fW7F2/#fight=55&source=10
@@ -18,7 +18,7 @@ class Netherwalk extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.NETHERWALK_TALENT);
+    this.active = this.selectedCombatant.hasTalent(NETHERWALK_TALENT);
     if (!this.active) {
       return;
     }
@@ -26,7 +26,7 @@ class Netherwalk extends Analyzer {
   }
 
   onNetherwalkCast(event: DamageEvent) {
-    if (!this.selectedCombatant.hasBuff(TALENTS_DEMON_HUNTER.NETHERWALK_TALENT.id)) {
+    if (!this.selectedCombatant.hasBuff(NETHERWALK_TALENT.id)) {
       return;
     }
     this.damageImmuned.push({
@@ -62,7 +62,7 @@ class Netherwalk extends Analyzer {
           )
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.NETHERWALK_TALENT}>
+        <TalentSpellText talent={NETHERWALK_TALENT}>
           {this.damageImmuned.length} <small>spells immuned</small>
         </TalentSpellText>
       </Statistic>

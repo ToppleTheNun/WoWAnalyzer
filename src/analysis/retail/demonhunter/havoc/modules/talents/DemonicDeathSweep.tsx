@@ -1,5 +1,4 @@
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
 import { SpellLink } from 'interface';
 import Analyzer, { SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent } from 'parser/core/Events';
@@ -9,6 +8,12 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import { DEMONIC_DURATION } from 'analysis/retail/demonhunter/shared';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import {
+  DEMONIC_TALENT,
+  EYE_BEAM_TALENT,
+  FIRST_BLOOD_TALENT,
+  TRAIL_OF_RUIN_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 /**
  * Example Report: https://www.warcraftlogs.com/reports/23dHWCrT18qhaJbz/#fight=1&source=16
@@ -18,8 +23,8 @@ const META_BUFF_DURATION_EYEBEAM = DEMONIC_DURATION;
 
 export default class DemonicDeathSweep extends Analyzer {
   talentsCheck =
-    this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.TRAIL_OF_RUIN_TALENT) ||
-    this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FIRST_BLOOD_TALENT);
+    this.selectedCombatant.hasTalent(TRAIL_OF_RUIN_TALENT) ||
+    this.selectedCombatant.hasTalent(FIRST_BLOOD_TALENT);
   eyeBeamCasts = 0;
   goodDeathSweep = 0;
   eyeBeamTimeStamp: number = 0;
@@ -28,12 +33,12 @@ export default class DemonicDeathSweep extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.DEMONIC_TALENT);
+    this.active = this.selectedCombatant.hasTalent(DEMONIC_TALENT);
     if (!this.active) {
       return;
     }
     this.addEventListener(
-      Events.cast.by(SELECTED_PLAYER).spell(TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT),
+      Events.cast.by(SELECTED_PLAYER).spell(EYE_BEAM_TALENT),
       this.onEyeBeamCast,
     );
     this.addEventListener(
@@ -91,13 +96,13 @@ export default class DemonicDeathSweep extends Analyzer {
       suggest(
         <>
           Try to have <SpellLink spell={SPELLS.BLADE_DANCE} /> almost off cooldown before casting{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.EYE_BEAM_TALENT} />. This will allow for two casts
-          of <SpellLink spell={SPELLS.DEATH_SWEEP} /> during the{' '}
+          <SpellLink spell={EYE_BEAM_TALENT} />. This will allow for two casts of{' '}
+          <SpellLink spell={SPELLS.DEATH_SWEEP} /> during the{' '}
           <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} /> buff you get from the{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.DEMONIC_TALENT} /> talent.
+          <SpellLink spell={DEMONIC_TALENT} /> talent.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.DEMONIC_TALENT.icon)
+        .icon(DEMONIC_TALENT.icon)
         .actual(
           <>
             {actual} time(s) during <SpellLink spell={SPELLS.METAMORPHOSIS_HAVOC} />{' '}
@@ -111,7 +116,7 @@ export default class DemonicDeathSweep extends Analyzer {
   statistic() {
     return (
       <Statistic category={STATISTIC_CATEGORY.GENERAL} size="flexible">
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.DEMONIC_TALENT}>
+        <TalentSpellText talent={DEMONIC_TALENT}>
           {this.badCasts} <small>Bad casts</small>
         </TalentSpellText>
       </Statistic>

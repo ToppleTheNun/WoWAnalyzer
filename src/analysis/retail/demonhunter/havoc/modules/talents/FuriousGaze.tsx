@@ -5,8 +5,9 @@ import Analyzer, { Options } from 'parser/core/Analyzer';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { FURIOUS_GAZE_TALENT } from 'common/TALENTS/demonhunter';
 
 /*
 example report: https://www.warcraftlogs.com/reports/wRG4vfCyMQVn9A6x#fight=8&type=summary&source=28
@@ -15,7 +16,7 @@ example report: https://www.warcraftlogs.com/reports/wRG4vfCyMQVn9A6x#fight=8&ty
 export default class FuriousGaze extends Analyzer {
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FURIOUS_GAZE_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FURIOUS_GAZE_TALENT);
   }
 
   get buffUptime() {
@@ -34,7 +35,7 @@ export default class FuriousGaze extends Analyzer {
         size="flexible"
         tooltip={`The Furious Gaze buff total uptime was ${formatDuration(this.buffDuration)}.`}
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FURIOUS_GAZE_TALENT}>
+        <TalentSpellText talent={FURIOUS_GAZE_TALENT}>
           <UptimeIcon /> {formatPercentage(this.buffUptime)}% <small>uptime</small>
         </TalentSpellText>
       </Statistic>

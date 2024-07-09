@@ -1,6 +1,6 @@
 import { formatNumber, formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import Analyzer, { Options } from 'parser/core/Analyzer';
 import { NumberThreshold, ThresholdStyle, When } from 'parser/core/ParseResults';
@@ -10,6 +10,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 
 import SoulFragmentsTracker from '../features/SoulFragmentsTracker';
+import { FEED_THE_DEMON_TALENT, SPIRIT_BOMB_TALENT } from 'common/TALENTS/demonhunter';
 
 class SoulsOvercap extends Analyzer {
   static dependencies = {
@@ -23,8 +24,8 @@ class SoulsOvercap extends Analyzer {
   constructor(options: Options) {
     super(options);
     this.active =
-      this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT) &&
-      !this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FEED_THE_DEMON_TALENT);
+      this.selectedCombatant.hasTalent(SPIRIT_BOMB_TALENT) &&
+      !this.selectedCombatant.hasTalent(FEED_THE_DEMON_TALENT);
   }
 
   get suggestionThresholdsEfficiency(): NumberThreshold {
@@ -49,7 +50,7 @@ class SoulsOvercap extends Analyzer {
         <>
           You are generating <SpellLink spell={SPELLS.SOUL_FRAGMENT} />s when you are already at 5
           souls. These are auto consumed. You are missing out on the extra damage consuming them
-          with <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> provides.
+          with <SpellLink spell={SPIRIT_BOMB_TALENT} /> provides.
         </>,
       )
         .icon(SPELLS.SOUL_FRAGMENT.icon)

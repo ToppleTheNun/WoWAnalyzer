@@ -1,5 +1,5 @@
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import { SpellLink } from 'interface';
 import SharedAbilities from 'analysis/retail/demonhunter/shared/modules/Abilities';
 import { SpellbookAbility } from 'parser/core/modules/Ability';
@@ -14,6 +14,26 @@ import {
   DOWN_IN_FLAMES_CDR_SCALING,
   PERFECTLY_BALANCED_GLAIVE_SCALING,
 } from 'analysis/retail/demonhunter/vengeance/constants';
+import {
+  BLAZING_PATH_TALENT,
+  BULK_EXTRACTION_TALENT,
+  CHAMPION_OF_THE_GLAIVE_TALENT,
+  DOWN_IN_FLAMES_TALENT,
+  FALLOUT_TALENT,
+  FEL_DEVASTATION_TALENT,
+  FIERY_BRAND_TALENT,
+  FRACTURE_TALENT,
+  ILLUMINATED_SIGILS_TALENT,
+  MASTER_OF_THE_GLAIVE_TALENT,
+  PERFECTLY_BALANCED_GLAIVE_TALENT,
+  QUICKENED_SIGILS_TALENT,
+  SIGIL_OF_CHAINS_TALENT,
+  SIGIL_OF_SILENCE_TALENT,
+  SOUL_BARRIER_TALENT,
+  SOUL_CARVER_TALENT,
+  SPIRIT_BOMB_TALENT,
+  VENGEFUL_RETREAT_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 class Abilities extends SharedAbilities {
   spellbook(): SpellbookAbility[] {
@@ -33,8 +53,8 @@ class Abilities extends SharedAbilities {
           extraSuggestion: (
             <>
               This is a great Fury filler spell. Try to always cast it on cooldown, specially when
-              using the <SpellLink spell={TALENTS_DEMON_HUNTER.FALLOUT_TALENT} /> talent in order to
-              maximize your <SpellLink spell={SPELLS.SOUL_FRAGMENT} /> generation.
+              using the <SpellLink spell={FALLOUT_TALENT} /> talent in order to maximize your{' '}
+              <SpellLink spell={SPELLS.SOUL_FRAGMENT} /> generation.
             </>
           ),
         },
@@ -44,18 +64,12 @@ class Abilities extends SharedAbilities {
         ],
       },
       {
-        spell: [
-          combatant.hasTalent(TALENTS_DEMON_HUNTER.FRACTURE_TALENT)
-            ? TALENTS_DEMON_HUNTER.FRACTURE_TALENT.id
-            : SPELLS.SHEAR.id,
-        ],
+        spell: [combatant.hasTalent(FRACTURE_TALENT) ? FRACTURE_TALENT.id : SPELLS.SHEAR.id],
         category: SPELL_CATEGORY.ROTATIONAL,
-        cooldown: combatant.hasTalent(TALENTS_DEMON_HUNTER.FRACTURE_TALENT)
-          ? (haste) => 4.5 / (1 + haste)
-          : 0,
-        charges: combatant.hasTalent(TALENTS_DEMON_HUNTER.FRACTURE_TALENT) ? 2 : 0,
+        cooldown: combatant.hasTalent(FRACTURE_TALENT) ? (haste) => 4.5 / (1 + haste) : 0,
+        charges: combatant.hasTalent(FRACTURE_TALENT) ? 2 : 0,
         castEfficiency: {
-          suggestion: combatant.hasTalent(TALENTS_DEMON_HUNTER.FRACTURE_TALENT),
+          suggestion: combatant.hasTalent(FRACTURE_TALENT),
           recommendedEfficiency: 0.9,
         },
         gcd: {
@@ -83,14 +97,10 @@ class Abilities extends SharedAbilities {
         isDefensive: true,
       },
       {
-        spell: TALENTS_DEMON_HUNTER.FIERY_BRAND_TALENT.id,
+        spell: FIERY_BRAND_TALENT.id,
         category: SPELL_CATEGORY.DEFENSIVE,
-        cooldown:
-          60 -
-          DOWN_IN_FLAMES_CDR_SCALING[
-            combatant.getTalentRank(TALENTS_DEMON_HUNTER.DOWN_IN_FLAMES_TALENT)
-          ],
-        charges: 1 + (combatant.hasTalent(TALENTS_DEMON_HUNTER.DOWN_IN_FLAMES_TALENT) ? 1 : 0),
+        cooldown: 60 - DOWN_IN_FLAMES_CDR_SCALING[combatant.getTalentRank(DOWN_IN_FLAMES_TALENT)],
+        charges: 1 + (combatant.hasTalent(DOWN_IN_FLAMES_TALENT) ? 1 : 0),
         gcd: {
           base: 1500,
         },
@@ -111,46 +121,42 @@ class Abilities extends SharedAbilities {
 
       // Talents
       {
-        spell: TALENTS_DEMON_HUNTER.VENGEFUL_RETREAT_TALENT.id,
+        spell: VENGEFUL_RETREAT_TALENT.id,
         category: SPELL_CATEGORY.UTILITY,
         cooldown: 25,
         // Not actually on the GCD but blocks all spells during its animation for 1 second. The issue is you can follow up any ability on the GCD with Vengeful Retreat, so it can still cause overlap.
         gcd: null,
       },
       {
-        spell: [
-          TALENTS_DEMON_HUNTER.SIGIL_OF_SILENCE_TALENT.id,
-          SPELLS.SIGIL_OF_SILENCE_PRECISE.id,
-        ],
-        enabled: this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SIGIL_OF_SILENCE_TALENT),
-        charges: 1 + (combatant.hasTalent(TALENTS_DEMON_HUNTER.ILLUMINATED_SIGILS_TALENT) ? 1 : 0),
+        spell: [SIGIL_OF_SILENCE_TALENT.id, SPELLS.SIGIL_OF_SILENCE_PRECISE.id],
+        enabled: this.selectedCombatant.hasTalent(SIGIL_OF_SILENCE_TALENT),
+        charges: 1 + (combatant.hasTalent(ILLUMINATED_SIGILS_TALENT) ? 1 : 0),
         category: SPELL_CATEGORY.UTILITY,
-        cooldown:
-          60 * (1 - (combatant.hasTalent(TALENTS_DEMON_HUNTER.QUICKENED_SIGILS_TALENT) ? 0.2 : 0)),
+        cooldown: 60 * (1 - (combatant.hasTalent(QUICKENED_SIGILS_TALENT) ? 0.2 : 0)),
         gcd: {
           base: 1500,
         },
       },
       {
-        spell: [TALENTS_DEMON_HUNTER.SIGIL_OF_CHAINS_TALENT.id, SPELLS.SIGIL_OF_CHAINS_PRECISE.id],
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.SIGIL_OF_CHAINS_TALENT),
+        spell: [SIGIL_OF_CHAINS_TALENT.id, SPELLS.SIGIL_OF_CHAINS_PRECISE.id],
+        enabled: combatant.hasTalent(SIGIL_OF_CHAINS_TALENT),
         category: SPELL_CATEGORY.UTILITY,
         cooldown: 60,
-        charges: 1 + (combatant.hasTalent(TALENTS_DEMON_HUNTER.ILLUMINATED_SIGILS_TALENT) ? 1 : 0),
+        charges: 1 + (combatant.hasTalent(ILLUMINATED_SIGILS_TALENT) ? 1 : 0),
         gcd: {
           base: 1500,
         },
       },
       {
-        spell: TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT.id,
+        spell: SPIRIT_BOMB_TALENT.id,
         category: SPELL_CATEGORY.ROTATIONAL,
         gcd: {
           base: 1500,
         },
       },
       {
-        spell: TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.SOUL_BARRIER_TALENT),
+        spell: SOUL_BARRIER_TALENT.id,
+        enabled: combatant.hasTalent(SOUL_BARRIER_TALENT),
         category: SPELL_CATEGORY.DEFENSIVE,
         cooldown: 30,
         gcd: {
@@ -163,8 +169,8 @@ class Abilities extends SharedAbilities {
         isDefensive: true,
       },
       {
-        spell: TALENTS_DEMON_HUNTER.BULK_EXTRACTION_TALENT.id,
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.BULK_EXTRACTION_TALENT),
+        spell: BULK_EXTRACTION_TALENT.id,
+        enabled: combatant.hasTalent(BULK_EXTRACTION_TALENT),
         category: SPELL_CATEGORY.DEFENSIVE,
         cooldown: 60,
         gcd: {
@@ -177,7 +183,7 @@ class Abilities extends SharedAbilities {
         isDefensive: true,
       },
       {
-        spell: TALENTS_DEMON_HUNTER.FEL_DEVASTATION_TALENT.id,
+        spell: FEL_DEVASTATION_TALENT.id,
         category: SPELL_CATEGORY.ROTATIONAL_AOE,
         cooldown: 40,
         gcd: {
@@ -191,21 +197,20 @@ class Abilities extends SharedAbilities {
         isDefensive: true,
       },
       {
-        spell: TALENTS_DEMON_HUNTER.SOUL_CARVER_TALENT.id,
+        spell: SOUL_CARVER_TALENT.id,
         category: SPELL_CATEGORY.UTILITY,
         cooldown: 60,
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(TALENTS_DEMON_HUNTER.SOUL_CARVER_TALENT),
+        enabled: combatant.hasTalent(SOUL_CARVER_TALENT),
         castEfficiency: {
           suggestion: true,
           recommendedEfficiency: 0.8,
           extraSuggestion: (
             <>
-              The only time you should delay casting{' '}
-              <SpellLink spell={TALENTS_DEMON_HUNTER.SOUL_CARVER_TALENT} /> is when you're expecting
-              are preparing for a burst window.
+              The only time you should delay casting <SpellLink spell={SOUL_CARVER_TALENT} /> is
+              when you're expecting are preparing for a burst window.
             </>
           ),
         },
@@ -216,7 +221,7 @@ class Abilities extends SharedAbilities {
         spell: SPELLS.INFERNAL_STRIKE.id,
         category: SPELL_CATEGORY.UTILITY,
         cooldown: getInfernalStrikeCooldown(combatant),
-        charges: 1 + (combatant.hasTalent(TALENTS_DEMON_HUNTER.BLAZING_PATH_TALENT) ? 1 : 0),
+        charges: 1 + (combatant.hasTalent(BLAZING_PATH_TALENT) ? 1 : 0),
         enabled: false, // TODO: change this to true, when infernal strike logging is working, see infernalstrike module for more details.
       },
 
@@ -226,16 +231,12 @@ class Abilities extends SharedAbilities {
         cooldown:
           9 -
           PERFECTLY_BALANCED_GLAIVE_SCALING[
-            combatant.getTalentRank(TALENTS_DEMON_HUNTER.PERFECTLY_BALANCED_GLAIVE_TALENT)
+            combatant.getTalentRank(PERFECTLY_BALANCED_GLAIVE_TALENT)
           ],
         charges:
           1 +
-          MASTER_OF_THE_GLAIVE_SCALING[
-            combatant.getTalentRank(TALENTS_DEMON_HUNTER.MASTER_OF_THE_GLAIVE_TALENT)
-          ] +
-          CHAMPION_OF_THE_GLAIVE_SCALING[
-            combatant.getTalentRank(TALENTS_DEMON_HUNTER.CHAMPION_OF_THE_GLAIVE_TALENT)
-          ],
+          MASTER_OF_THE_GLAIVE_SCALING[combatant.getTalentRank(MASTER_OF_THE_GLAIVE_TALENT)] +
+          CHAMPION_OF_THE_GLAIVE_SCALING[combatant.getTalentRank(CHAMPION_OF_THE_GLAIVE_TALENT)],
         gcd: {
           base: 1500,
         },

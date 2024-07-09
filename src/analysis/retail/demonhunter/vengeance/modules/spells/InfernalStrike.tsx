@@ -3,15 +3,16 @@ import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { CastEvent } from 'parser/core/Events';
 import Combatant from 'parser/core/Combatant';
 import { METEORIC_STRIKES_SCALING } from 'analysis/retail/demonhunter/vengeance/constants';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+
 import { ERRATIC_FELHEART_SCALING } from 'analysis/retail/demonhunter/shared';
+import { ERRATIC_FELHEART_TALENT, METEORIC_STRIKES_TALENT } from 'common/TALENTS/demonhunter';
 
 export function getInfernalStrikeCooldown(combatant: Combatant) {
   const baseCooldown = 20;
   const abyssalHasteReduction =
-    METEORIC_STRIKES_SCALING[combatant.getTalentRank(TALENTS_DEMON_HUNTER.METEORIC_STRIKES_TALENT)];
+    METEORIC_STRIKES_SCALING[combatant.getTalentRank(METEORIC_STRIKES_TALENT)];
   const erraticFelheartReduction =
-    ERRATIC_FELHEART_SCALING[combatant.getTalentRank(TALENTS_DEMON_HUNTER.ERRATIC_FELHEART_TALENT)];
+    ERRATIC_FELHEART_SCALING[combatant.getTalentRank(ERRATIC_FELHEART_TALENT)];
   const flatReduced = baseCooldown - abyssalHasteReduction;
   return flatReduced - flatReduced * erraticFelheartReduction;
 }

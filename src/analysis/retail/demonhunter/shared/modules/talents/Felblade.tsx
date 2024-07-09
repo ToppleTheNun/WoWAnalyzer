@@ -1,6 +1,6 @@
 import { formatPercentage, formatThousands } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+import { FELBLADE_TALENT } from 'common/TALENTS/demonhunter';
 import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { DamageEvent, ResourceChangeEvent } from 'parser/core/Events';
@@ -20,7 +20,7 @@ class Felblade extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FELBLADE_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FELBLADE_TALENT);
     if (!this.active) {
       return;
     }
@@ -64,11 +64,11 @@ class Felblade extends Analyzer {
       suggest(
         <>
           {' '}
-          Avoid casting <SpellLink spell={TALENTS_DEMON_HUNTER.FELBLADE_TALENT} /> close to Fury cap
-          and cast abilities regularly to avoid accidently capping your fury.
+          Avoid casting <SpellLink spell={FELBLADE_TALENT} /> close to Fury cap and cast abilities
+          regularly to avoid accidently capping your fury.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.FELBLADE_TALENT.icon)
+        .icon(FELBLADE_TALENT.icon)
         .actual(`${formatPercentage(actual)}% Fury wasted`)
         .recommended(`${formatPercentage(recommended)}% is recommended.`),
     );
@@ -92,7 +92,7 @@ class Felblade extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FELBLADE_TALENT}>
+        <TalentSpellText talent={FELBLADE_TALENT}>
           <>
             {this.furyPerMin} <small>Fury per min</small>
             <br />

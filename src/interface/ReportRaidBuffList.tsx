@@ -12,13 +12,13 @@ import Spell from 'common/SPELLS/Spell';
 import SPELLS from 'common/SPELLS';
 import {
   TALENTS_DEATH_KNIGHT,
-  TALENTS_DEMON_HUNTER,
   TALENTS_DRUID,
   TALENTS_MONK,
   TALENTS_PALADIN,
   TALENTS_PRIEST,
   TALENTS_SHAMAN,
 } from 'common/TALENTS';
+import { DARKNESS_TALENT } from 'common/TALENTS/demonhunter';
 // Classic
 import CLASSIC_SPELLS from 'common/SPELLS/classic';
 
@@ -48,7 +48,7 @@ const RETAIL_RAID_BUFFS = new Map<Spell | Talent, Array<Class | object>>([
   [SPELLS.REBIRTH, [Class.Druid, Class.DeathKnight, Class.Warlock, Class.Paladin]],
   [SPELLS.RALLYING_CRY, [Class.Warrior]],
   [TALENTS_DEATH_KNIGHT.ANTI_MAGIC_ZONE_TALENT, [Class.DeathKnight]],
-  [TALENTS_DEMON_HUNTER.DARKNESS_TALENT, [Class.DemonHunter]],
+  [DARKNESS_TALENT, [Class.DemonHunter]],
   [TALENTS_PALADIN.AURA_MASTERY_TALENT, [SPECS.HOLY_PALADIN]],
   [TALENTS_SHAMAN.SPIRIT_LINK_TOTEM_TALENT, [SPECS.RESTORATION_SHAMAN]],
   [TALENTS_SHAMAN.HEALING_TIDE_TOTEM_TALENT, [SPECS.RESTORATION_SHAMAN]],

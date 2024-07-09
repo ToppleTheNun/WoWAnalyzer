@@ -1,5 +1,5 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Events, { ResourceChangeEvent } from 'parser/core/Events';
 import SPELLS from 'common/SPELLS/demonhunter';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
@@ -8,6 +8,7 @@ import { formatPercentage } from 'common/format';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { FLAMES_OF_FURY_TALENT } from 'common/TALENTS/demonhunter';
 
 export default class FlamesOfFury extends Analyzer {
   furyGain = 0;
@@ -15,7 +16,7 @@ export default class FlamesOfFury extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FLAMES_OF_FURY_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FLAMES_OF_FURY_TALENT);
     if (!this.active) {
       return;
     }
@@ -54,7 +55,7 @@ export default class FlamesOfFury extends Analyzer {
           abilities regularly to avoid accidently capping your fury.
         </>,
       )
-        .icon(TALENTS_DEMON_HUNTER.FLAMES_OF_FURY_TALENT.icon)
+        .icon(FLAMES_OF_FURY_TALENT.icon)
         .actual(`${formatPercentage(actual)}% Fury wasted`)
         .recommended(`${formatPercentage(recommended)}% is recommended.`),
     );
@@ -76,7 +77,7 @@ export default class FlamesOfFury extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FLAMES_OF_FURY_TALENT}>
+        <TalentSpellText talent={FLAMES_OF_FURY_TALENT}>
           {this.furyPerMin} <small>Fury per min</small>
         </TalentSpellText>
       </Statistic>

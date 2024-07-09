@@ -4,7 +4,6 @@ import Events, { CastEvent } from 'parser/core/Events';
 import SPELLS from 'common/SPELLS/demonhunter';
 import { combineQualitativePerformances } from 'common/combineQualitativePerformances';
 import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
 import Enemy from 'parser/core/Enemy';
 import { getSoulCleaveDamages } from 'analysis/retail/demonhunter/vengeance/normalizers/SoulCleaveEventLinkNormalizer';
 import {
@@ -12,7 +11,6 @@ import {
   SPIRIT_BOMB_SOULS_OUT_OF_META,
 } from 'analysis/retail/demonhunter/vengeance/constants';
 import { SpellLink } from 'interface';
-import TALENTS from 'common/TALENTS/demonhunter';
 import {
   ChecklistUsageInfo,
   SpellUse,
@@ -24,6 +22,7 @@ import CastPerformanceSummary from 'analysis/retail/demonhunter/shared/guide/Cas
 import RESOURCE_TYPES from 'game/RESOURCE_TYPES';
 import ResourceLink from 'interface/ResourceLink';
 import ContextualSpellUsageSubSection from 'parser/core/SpellUsage/HideGoodCastsSpellUsageSubSection';
+import { FIERY_DEMISE_TALENT, SPIRIT_BOMB_TALENT } from 'common/TALENTS/demonhunter';
 
 export default class SoulCleave extends Analyzer {
   static dependencies = {
@@ -39,15 +38,13 @@ export default class SoulCleave extends Analyzer {
   }
 
   guideSubsection() {
-    const spiritBombSnippet = this.selectedCombatant.hasTalent(
-      TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT,
-    ) ? (
+    const spiritBombSnippet = this.selectedCombatant.hasTalent(SPIRIT_BOMB_TALENT) ? (
       <>
         {' '}
         Use <SpellLink spell={SPELLS.SOUL_CLEAVE} /> when you would not otherwise use{' '}
-        <SpellLink spell={TALENTS.SPIRIT_BOMB_TALENT} />. Always try to press{' '}
+        <SpellLink spell={SPIRIT_BOMB_TALENT} />. Always try to press{' '}
         <SpellLink spell={SPELLS.SOUL_CLEAVE} /> at least once after every{' '}
-        <SpellLink spell={TALENTS.SPIRIT_BOMB_TALENT} />.
+        <SpellLink spell={SPIRIT_BOMB_TALENT} />.
       </>
     ) : null;
     const explanation = (
@@ -116,14 +113,12 @@ export default class SoulCleave extends Analyzer {
 
   private getCastWhenSpiritBombBetterPerformance(event: CastEvent): UsageInfo | undefined {
     // If we don't have SpB, can't cast it instead
-    const hasSpiritBomb = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT);
+    const hasSpiritBomb = this.selectedCombatant.hasTalent(SPIRIT_BOMB_TALENT);
     if (!hasSpiritBomb) {
       return undefined;
     }
 
-    const hasFieryDemise = this.selectedCombatant.hasTalent(
-      TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT,
-    );
+    const hasFieryDemise = this.selectedCombatant.hasTalent(FIERY_DEMISE_TALENT);
 
     const damageEvents = getSoulCleaveDamages(event);
     const isAoE = damageEvents.length > 1;
@@ -190,10 +185,10 @@ export default class SoulCleave extends Analyzer {
             {numberOfSoulFragmentsAvailable}
             <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />s available during{' '}
             <SpellLink spell={SPELLS.METAMORPHOSIS_TANK} /> in AoE.{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
+            <SpellLink spell={SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
             {SPIRIT_BOMB_SOULS_IN_META}+ <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />
             s in <SpellLink spell={SPELLS.METAMORPHOSIS_TANK} />; you should have pressed{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> instead.
+            <SpellLink spell={SPIRIT_BOMB_TALENT} /> instead.
           </div>
         ),
       };
@@ -218,13 +213,9 @@ export default class SoulCleave extends Analyzer {
         <div>
           You cast <SpellLink spell={SPELLS.SOUL_CLEAVE} /> while you had{' '}
           {numberOfSoulFragmentsAvailable} <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />s
-          available in AoE. <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> should be
-          pressed at {SPIRIT_BOMB_SOULS_OUT_OF_META}+{' '}
-          <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />
-          s; you should have pressed <SpellLink
-            spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT}
-          />{' '}
-          instead.
+          available in AoE. <SpellLink spell={SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
+          {SPIRIT_BOMB_SOULS_OUT_OF_META}+ <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />
+          s; you should have pressed <SpellLink spell={SPIRIT_BOMB_TALENT} /> instead.
         </div>
       ),
     };
@@ -247,7 +238,7 @@ export default class SoulCleave extends Analyzer {
         details: (
           <div>
             You cast <SpellLink spell={SPELLS.SOUL_CLEAVE} /> outside of a{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT} /> window.
+            <SpellLink spell={FIERY_DEMISE_TALENT} /> window.
           </div>
         ),
       };
@@ -270,7 +261,7 @@ export default class SoulCleave extends Analyzer {
               You cast <SpellLink spell={SPELLS.SOUL_CLEAVE} /> while you had{' '}
               {numberOfSoulFragmentsAvailable} <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />s
               available during <SpellLink spell={SPELLS.METAMORPHOSIS_TANK} /> and a{' '}
-              <SpellLink spell={TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT} /> window. Good job!
+              <SpellLink spell={FIERY_DEMISE_TALENT} /> window. Good job!
             </div>
           ),
         };
@@ -284,11 +275,11 @@ export default class SoulCleave extends Analyzer {
             {numberOfSoulFragmentsAvailable}
             <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />s available during{' '}
             <SpellLink spell={SPELLS.METAMORPHOSIS_TANK} /> in a{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT} /> window.{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
+            <SpellLink spell={FIERY_DEMISE_TALENT} /> window.{' '}
+            <SpellLink spell={SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
             {SPIRIT_BOMB_SOULS_IN_META}+ <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />
             s in <SpellLink spell={SPELLS.METAMORPHOSIS_TANK} />; you should have pressed{' '}
-            <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> instead.
+            <SpellLink spell={SPIRIT_BOMB_TALENT} /> instead.
           </div>
         ),
       };
@@ -301,8 +292,7 @@ export default class SoulCleave extends Analyzer {
           <div>
             You cast <SpellLink spell={SPELLS.SOUL_CLEAVE} /> while you had{' '}
             {numberOfSoulFragmentsAvailable} <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />s
-            available in a <SpellLink spell={TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT} /> window.
-            Good job!
+            available in a <SpellLink spell={FIERY_DEMISE_TALENT} /> window. Good job!
           </div>
         ),
       };
@@ -314,13 +304,10 @@ export default class SoulCleave extends Analyzer {
         <div>
           You cast <SpellLink spell={SPELLS.SOUL_CLEAVE} /> while you had{' '}
           {numberOfSoulFragmentsAvailable} <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />s
-          available in a <SpellLink spell={TALENTS_DEMON_HUNTER.FIERY_DEMISE_TALENT} /> window.{' '}
-          <SpellLink spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
+          available in a <SpellLink spell={FIERY_DEMISE_TALENT} /> window.{' '}
+          <SpellLink spell={SPIRIT_BOMB_TALENT} /> should be pressed at{' '}
           {SPIRIT_BOMB_SOULS_OUT_OF_META}+ <SpellLink spell={SPELLS.SOUL_FRAGMENT_STACK} />
-          s; you should have pressed <SpellLink
-            spell={TALENTS_DEMON_HUNTER.SPIRIT_BOMB_TALENT}
-          />{' '}
-          instead.
+          s; you should have pressed <SpellLink spell={SPIRIT_BOMB_TALENT} /> instead.
         </div>
       ),
     };

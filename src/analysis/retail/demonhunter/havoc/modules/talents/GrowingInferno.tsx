@@ -7,7 +7,7 @@ import ItemDamageDone from 'parser/ui/ItemDamageDone';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS';
+import { GROWING_INFERNO_TALENT } from 'common/TALENTS/demonhunter';
 import { GROWING_INFERNO_SCALING } from 'analysis/retail/demonhunter/havoc/constants';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 
@@ -17,7 +17,7 @@ export default class GrowingInferno extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.GROWING_INFERNO_TALENT);
+    this.active = this.selectedCombatant.hasTalent(GROWING_INFERNO_TALENT);
     if (!this.active) {
       return;
     }
@@ -38,9 +38,7 @@ export default class GrowingInferno extends Analyzer {
     // note that this is likely not entirely correct, but is a decent approximation
     this.addedDamage += calculateEffectiveDamage(
       event,
-      GROWING_INFERNO_SCALING[
-        this.selectedCombatant.getTalentRank(TALENTS_DEMON_HUNTER.GROWING_INFERNO_TALENT)
-      ],
+      GROWING_INFERNO_SCALING[this.selectedCombatant.getTalentRank(GROWING_INFERNO_TALENT)],
     );
   }
 
@@ -52,7 +50,7 @@ export default class GrowingInferno extends Analyzer {
         category={STATISTIC_CATEGORY.COVENANTS}
         tooltip={<>Total damage of Immolation Aura {formatThousands(this.totalDamage)}</>}
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.GROWING_INFERNO_TALENT}>
+        <TalentSpellText talent={GROWING_INFERNO_TALENT}>
           <ItemDamageDone amount={this.addedDamage} />
         </TalentSpellText>
       </Statistic>

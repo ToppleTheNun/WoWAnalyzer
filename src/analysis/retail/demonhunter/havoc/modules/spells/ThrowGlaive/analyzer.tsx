@@ -1,6 +1,5 @@
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import SPELLS from 'common/SPELLS/demonhunter';
-import TALENTS from 'common/TALENTS/demonhunter';
 import { ExplanationAndDataSubSection } from 'interface/guide/components/ExplanationRow';
 import SpellLink from 'interface/SpellLink';
 import { AcceleratingBladeExplanation } from 'analysis/retail/demonhunter/havoc/modules/spells/ThrowGlaive/AcceleratingBladeExplanation';
@@ -10,6 +9,14 @@ import Events, { FightEndEvent, UpdateSpellUsableEvent } from 'parser/core/Event
 import { BadColor, GoodColor, OkColor } from 'interface/guide';
 import DonutChart, { Item } from 'parser/ui/DonutChart';
 import { RoundedPanel } from 'interface/guide/components/GuideDivs';
+import {
+  BOUNCING_GLAIVES_TALENT,
+  BURNING_WOUND_TALENT,
+  FURIOUS_THROWS_TALENT,
+  MASTER_OF_THE_GLAIVE_TALENT,
+  SERRATED_GLAIVE_TALENT,
+  SOULSCAR_TALENT,
+} from 'common/TALENTS/demonhunter';
 
 interface TimeAtCharge {
   chargesAvailable: number;
@@ -28,8 +35,8 @@ export default class ThrowGlaive extends Analyzer {
   constructor(options: Options) {
     super(options);
     this.active =
-      this.selectedCombatant.hasTalent(TALENTS.SOULSCAR_TALENT) &&
-      this.selectedCombatant.hasTalent(TALENTS.FURIOUS_THROWS_TALENT);
+      this.selectedCombatant.hasTalent(SOULSCAR_TALENT) &&
+      this.selectedCombatant.hasTalent(FURIOUS_THROWS_TALENT);
     this.addEventListener(
       Events.UpdateSpellUsable.by(SELECTED_PLAYER).spell(SPELLS.THROW_GLAIVE_HAVOC),
       this.onUpdateSpellUsable,
@@ -65,7 +72,7 @@ export default class ThrowGlaive extends Analyzer {
         valueTooltip: <>{oneChargeSeconds} seconds</>,
       },
     ];
-    if (this.selectedCombatant.hasTalent(TALENTS.MASTER_OF_THE_GLAIVE_TALENT)) {
+    if (this.selectedCombatant.hasTalent(MASTER_OF_THE_GLAIVE_TALENT)) {
       const twoChargesSeconds = Math.round((timeAtSpecific[2] ?? 0) / 1000);
       items.push({
         color: BadColor,
@@ -96,29 +103,28 @@ export default class ThrowGlaive extends Analyzer {
         <ExplanationSection>
           <p>
             <SpellLink spell={SPELLS.THROW_GLAIVE_HAVOC} /> gains significant value in your rotation
-            when you take <SpellLink spell={TALENTS.SOULSCAR_TALENT} /> and{' '}
-            <SpellLink spell={TALENTS.FURIOUS_THROWS_TALENT} />. It also gains value from the below
-            talents.
+            when you take <SpellLink spell={SOULSCAR_TALENT} /> and{' '}
+            <SpellLink spell={FURIOUS_THROWS_TALENT} />. It also gains value from the below talents.
           </p>
           <ul>
-            {this.selectedCombatant.hasTalent(TALENTS.BOUNCING_GLAIVES_TALENT) && (
+            {this.selectedCombatant.hasTalent(BOUNCING_GLAIVES_TALENT) && (
               <li>
-                <SpellLink spell={TALENTS.BOUNCING_GLAIVES_TALENT} />
+                <SpellLink spell={BOUNCING_GLAIVES_TALENT} />
               </li>
             )}
-            {this.selectedCombatant.hasTalent(TALENTS.MASTER_OF_THE_GLAIVE_TALENT) && (
+            {this.selectedCombatant.hasTalent(MASTER_OF_THE_GLAIVE_TALENT) && (
               <li>
-                <SpellLink spell={TALENTS.MASTER_OF_THE_GLAIVE_TALENT} />
+                <SpellLink spell={MASTER_OF_THE_GLAIVE_TALENT} />
               </li>
             )}
-            {this.selectedCombatant.hasTalent(TALENTS.SERRATED_GLAIVE_TALENT) && (
+            {this.selectedCombatant.hasTalent(SERRATED_GLAIVE_TALENT) && (
               <li>
-                <SpellLink spell={TALENTS.SERRATED_GLAIVE_TALENT} />
+                <SpellLink spell={SERRATED_GLAIVE_TALENT} />
               </li>
             )}
-            {this.selectedCombatant.hasTalent(TALENTS.BURNING_WOUND_TALENT) && (
+            {this.selectedCombatant.hasTalent(BURNING_WOUND_TALENT) && (
               <li>
-                <SpellLink spell={TALENTS.BURNING_WOUND_TALENT} />
+                <SpellLink spell={BURNING_WOUND_TALENT} />
               </li>
             )}
             <AcceleratingBladeExplanation />

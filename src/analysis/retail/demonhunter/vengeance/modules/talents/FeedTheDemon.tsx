@@ -1,6 +1,6 @@
 import { formatNumber, formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS/demonhunter';
-import { TALENTS_DEMON_HUNTER } from 'common/TALENTS/demonhunter';
+
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import Events, { HealEvent } from 'parser/core/Events';
 import AbilityTracker from 'parser/shared/modules/AbilityTracker';
@@ -9,6 +9,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import STATISTIC_ORDER from 'parser/ui/STATISTIC_ORDER';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import { FEED_THE_DEMON_TALENT } from 'common/TALENTS/demonhunter';
 
 const COOLDOWN_REDUCTION_MS = 500;
 
@@ -26,7 +27,7 @@ class FeedTheDemon extends Analyzer {
 
   constructor(options: Options) {
     super(options);
-    this.active = this.selectedCombatant.hasTalent(TALENTS_DEMON_HUNTER.FEED_THE_DEMON_TALENT);
+    this.active = this.selectedCombatant.hasTalent(FEED_THE_DEMON_TALENT);
     this.addEventListener(
       Events.heal.by(SELECTED_PLAYER).spell(SPELLS.CONSUME_SOUL_VDH),
       this.onHeal,
@@ -86,7 +87,7 @@ class FeedTheDemon extends Analyzer {
           </>
         }
       >
-        <TalentSpellText talent={TALENTS_DEMON_HUNTER.FEED_THE_DEMON_TALENT}>
+        <TalentSpellText talent={FEED_THE_DEMON_TALENT}>
           {formatNumber(this.averageReduction)} sec average reduction
         </TalentSpellText>
       </Statistic>
